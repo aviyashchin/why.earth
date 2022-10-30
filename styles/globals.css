@@ -28,3 +28,7 @@ a {
     background: black;
   }
 }
+
+canvas {
+  display: block;
+}
