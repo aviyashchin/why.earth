@@ -30,8 +30,10 @@ export default function Home() {
               className="flex w-full md:w-auto flex-grow h-16 bg-gray-50 border border-gray-300 text-gray-900 text-base md:text-lg rounded-lg focus:ring-gray-500 focus:border-gray-500 p-5"
               placeholder="Enter your email"
             />
-            <button className="w-full md:w-fit h-16 bg-green-600 hover:bg-green-800 text-white text-base md:text-lg rounded-lg font-bold px-8 py-5 transition-all duration-300 cursor-pointer">
-              SIGN UP FOR THE ALPHA
+            <button className="w-full md:w-fit h-16 bg-green-600 hover:bg-green-800 rounded-lg px-8 py-5 transition-all duration-300 cursor-pointer">
+              <span className="w-full text-white text-base md:text-lg font-bold whitespace-nowrap">
+                SIGN UP FOR THE ALPHA
+              </span>
             </button>
           </div>
         </div>
