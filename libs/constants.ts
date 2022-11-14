@@ -1,0 +1,3 @@
+export const TAG_PROVIDER = "PROVIDER";
+export const TAG_ACCESS_TOKEN = "ACCESS_TOKEN";
+export const TAG_REFRESH_TOKEN = "REFRESH_TOKEN";

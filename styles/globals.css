@@ -49,7 +49,6 @@ a {
   display: -moz-box;
   display: -webkit-flex;
   display: -ms-flexbox;
-  display: box;
   display: flex;
   -webkit-box-pack: center;
   -moz-box-pack: center;
@@ -58,4 +57,15 @@ a {
   -webkit-justify-content: center;
   justify-content: center;
   will-change: transform;
+}
+
+.loading {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 50;
+  width: 100vw;
+  height: 100vh;
+  background: 00000088;
+  backdrop-filter: blur(30px);
 }

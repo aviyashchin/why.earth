@@ -1,5 +1,6 @@
 import Globe from "@/components/Globe";
 import Head from "next/head";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -28,11 +29,13 @@ export default function Home() {
               className="flex w-full md:w-auto flex-grow h-16 bg-gray-50 border border-gray-300 text-gray-900 text-base md:text-lg rounded-lg outline-none focus:outline-none p-5"
               placeholder="Enter your email"
             />
-            <button className="w-full md:w-fit h-16 bg-green-600 hover:bg-green-800 rounded-lg px-8 py-5 transition-all duration-300 cursor-pointer">
-              <span className="w-full text-white text-base md:text-lg font-bold whitespace-nowrap">
-                SIGN UP FOR THE ALPHA
-              </span>
-            </button>
+            <Link href="/signin">
+              <button className="w-full md:w-fit h-16 bg-green-600 hover:bg-green-800 rounded-lg px-8 py-5 transition-all duration-300 cursor-pointer">
+                <span className="w-full text-white text-base md:text-lg font-bold whitespace-nowrap">
+                  SIGN UP FOR THE ALPHA
+                </span>
+              </button>
+            </Link>
           </div>
         </div>
         <div className="w-full md:w-2/3 xl:w-1/2 h-full flex flex-col justify-center items-center absolute left-0 md:left-1/3 xl:left-1/2 z-0">
