@@ -1,5 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { db, auth } from "@/libs/firebase";
+import { db, auth, initializeFirebase } from "@/libs/firebase";
+
+initializeFirebase();
 
 export default async function handler(
   req: NextApiRequest,

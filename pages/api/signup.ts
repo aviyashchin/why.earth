@@ -1,8 +1,10 @@
-import { db } from "@/libs/firebase";
+import { db, initializeFirebase } from "@/libs/firebase";
 import moment from "moment";
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { User } from "@/interfaces/User";
+
+const app = initializeFirebase();
 
 export default async function handler(
   req: NextApiRequest,
@@ -16,6 +18,8 @@ export default async function handler(
     }
 
     const { email, username, password } = req.body;
+
+    console.log(email, username, password);
 
     if (!email || !username || !password) {
       return res.status(400).json({
@@ -33,9 +37,8 @@ export default async function handler(
         .json({ error: { message: "Username is already taken." } });
     }
 
-    const auth = getAuth();
     const credential = await createUserWithEmailAndPassword(
-      auth,
+      getAuth(app),
       email,
       password
     );
@@ -52,6 +55,7 @@ export default async function handler(
 
     return res.json({ accessToken, refreshToken });
   } catch (err: any) {
+    console.log(err);
     const { code } = err;
     if (code === "auth/email-already-in-use") {
       res.status(400);

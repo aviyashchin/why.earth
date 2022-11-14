@@ -1,7 +1,9 @@
 import moment from "moment";
 import { signInWithEmailAndPassword, getAuth } from "firebase/auth";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { db } from "@/libs/firebase";
+import { db, initializeFirebase } from "@/libs/firebase";
+
+const app = initializeFirebase();
 
 export default async function handler(
   req: NextApiRequest,
@@ -23,7 +25,7 @@ export default async function handler(
     }
 
     const credential = await signInWithEmailAndPassword(
-      getAuth(),
+      getAuth(app),
       email,
       password
     );

@@ -1,5 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
+import { initializeFirebase } from "@/libs/firebase";
+
+const app = initializeFirebase();
 
 export default async function handler(
   req: NextApiRequest,
@@ -20,7 +23,7 @@ export default async function handler(
       });
     }
 
-    sendPasswordResetEmail(getAuth(), email);
+    sendPasswordResetEmail(getAuth(app), email);
 
     return res.json({
       message:

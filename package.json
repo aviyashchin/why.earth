@@ -9,8 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "firebase": "^9.14.0",
-    "firebase-admin": "^11.2.1",
+    "firebase": "^9.10.0",
+    "firebase-admin": "^11.0.1",
     "fs": "^0.0.1-security",
     "moment": "^2.29.4",
     "next": "13.0.0",
