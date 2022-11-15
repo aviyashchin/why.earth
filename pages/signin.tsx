@@ -105,7 +105,7 @@ export default function Signin() {
               </p>
             </p>
             <p className="text-white text-base flex flex-row">
-              Don't have account?&nbsp;&nbsp;
+              Don&apos;t have account?&nbsp;&nbsp;
               <Link href="/signup">
                 <p className="text-green-600 hover:text-green-800 cursor-pointer">
                   Sign Up
