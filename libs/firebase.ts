@@ -30,7 +30,7 @@ if (!admin.apps.length) {
       project_id: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
       private_key_id: process.env.NEXT_PUBLIC_FIREBASE_PRIVATE_KEY_ID,
       private_key: `${process.env.NEXT_PUBLIC_FIREBASE_PRIVATE_KEY}`.replace(
-        /\\n/g,
+        /\n/gm,
         "\n"
       ),
       client_email: process.env.NEXT_PUBLIC_FIREBASE_CLIENT_EMAIL,
