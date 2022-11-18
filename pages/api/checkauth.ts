@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { db, auth } from "@/libs/firebase-admin";
 import { initializeFirebase } from "@/libs/firebase-client";
+import { getErrorMessageForCode } from "@/libs/utils";
 
 initializeFirebase();
 
@@ -51,23 +52,9 @@ export default async function handler(
       user,
     });
   } catch (e: any) {
-    if (e.code == "auth/id-token-expired") {
-      return res.status(401).json({
-        error: {
-          message: "token expired",
-        },
-      });
-    } else if (e.code == "auth/argument-error") {
-      return res.status(404).json({
-        error: {
-          message: "User not found",
-        },
-      });
-    }
-
     return res.status(400).json({
       error: {
-        message: "Unknown error occured.",
+        message: getErrorMessageForCode(e.code),
       },
     });
   }

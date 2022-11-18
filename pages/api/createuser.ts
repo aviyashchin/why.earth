@@ -2,6 +2,7 @@ import { db, auth } from "@/libs/firebase-admin";
 import moment from "moment";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { User } from "@/interfaces/User";
+import { getErrorMessageForCode } from "@/libs/utils";
 
 export default async function handler(
   req: NextApiRequest,
@@ -46,16 +47,9 @@ export default async function handler(
 
     return res.json({ user });
   } catch (err: any) {
-    console.log(err);
-    const { code } = err;
-    if (code === "auth/email-already-in-use") {
-      res.status(400);
-    } else {
-      res.status(500);
-    }
-    res.json({
+    return res.status(400).json({
       error: {
-        message: code ? code.replace("auth/", "") : "Unknown error occured.",
+        message: getErrorMessageForCode(err.code),
       },
     });
   }

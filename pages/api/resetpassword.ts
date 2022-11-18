@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 import { initializeFirebase } from "@/libs/firebase-client";
+import { getErrorMessageForCode } from "@/libs/utils";
 
 const app = initializeFirebase();
 
@@ -29,16 +30,10 @@ export default async function handler(
       message:
         "Just sent reset link to your email. Please check your mail inbox.",
     });
-  } catch (error: any) {
-    const { code } = error;
-    if (code) {
-      res.status(400);
-    } else {
-      res.status(500);
-    }
-    res.json({
+  } catch (err: any) {
+    return res.status(400).json({
       error: {
-        message: code ? code.replace("auth/", "") : "Unknown error occured.",
+        message: getErrorMessageForCode(err.code),
       },
     });
   }

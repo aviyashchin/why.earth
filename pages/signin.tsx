@@ -1,5 +1,6 @@
 import { useAuthValues } from "@/context/contextAuth";
 import { TAG_ACCESS_TOKEN, TAG_REFRESH_TOKEN } from "@/libs/constants";
+import { getErrorMessageForCode } from "@/libs/utils";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { getAuth } from "firebase/auth";
 import Head from "next/head";
@@ -71,8 +72,8 @@ export default function Signin() {
           });
         }
       })
-      .catch((error) => {
-        console.log(error);
+      .catch((err) => {
+        toast.error(getErrorMessageForCode(err.code));
       });
   };
 

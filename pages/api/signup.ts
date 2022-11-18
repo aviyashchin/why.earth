@@ -4,6 +4,7 @@ import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { User } from "@/interfaces/User";
 import { initializeFirebase } from "@/libs/firebase-client";
+import { getErrorMessageForCode } from "@/libs/utils";
 
 const app = initializeFirebase();
 
@@ -43,16 +44,9 @@ export default async function handler(
 
     return res.json({ accessToken, refreshToken });
   } catch (err: any) {
-    console.log(err);
-    const { code } = err;
-    if (code === "auth/email-already-in-use") {
-      res.status(400);
-    } else {
-      res.status(500);
-    }
-    res.json({
+    return res.status(400).json({
       error: {
-        message: code ? code.replace("auth/", "") : "Unknown error occured.",
+        message: getErrorMessageForCode(err.code),
       },
     });
   }

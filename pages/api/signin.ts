@@ -3,6 +3,7 @@ import { signInWithEmailAndPassword, getAuth } from "firebase/auth";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { db } from "@/libs/firebase-admin";
 import { initializeFirebase } from "@/libs/firebase-client";
+import { getErrorMessageForCode } from "@/libs/utils";
 
 const app = initializeFirebase();
 
@@ -47,19 +48,10 @@ export default async function handler(
       refreshToken,
       user,
     });
-  } catch (error: any) {
-    const { code } = error;
-    if (
-      error.code === "auth/wrong-password" ||
-      error.code === "auth/user-not-found"
-    ) {
-      res.status(403);
-    } else {
-      res.status(500);
-    }
-    res.json({
+  } catch (err: any) {
+    return res.status(400).json({
       error: {
-        message: code ? code.replace("auth/", "") : "Unknown error occured.",
+        message: getErrorMessageForCode(err.code),
       },
     });
   }
