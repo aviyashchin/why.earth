@@ -66,7 +66,7 @@ export default function Signin() {
               window.localStorage.setItem(TAG_ACCESS_TOKEN, accessToken);
               window.localStorage.setItem(TAG_REFRESH_TOKEN, refreshToken);
 
-              createUser(accessToken, email);
+              createUser(accessToken, refreshToken, email);
             }
           });
         }

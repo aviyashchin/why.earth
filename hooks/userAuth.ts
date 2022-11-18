@@ -49,7 +49,11 @@ const useAuth = () => {
     }
   };
 
-  const createUser = async (accessToken: string, email: string) => {
+  const createUser = async (
+    accessToken: string,
+    refreshToken: string,
+    email: string
+  ) => {
     const response = await fetch(`/api/createuser`, {
       method: "POST",
       headers: {
@@ -62,6 +66,8 @@ const useAuth = () => {
     if (response.ok) {
       const data = await response.json();
 
+      setAcessToken(accessToken);
+      setRefreshToken(refreshToken);
       setUser(data.user);
       setIsSignedIn(true);
     } else {
