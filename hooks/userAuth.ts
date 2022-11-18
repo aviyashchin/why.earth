@@ -2,6 +2,9 @@ import { TAG_ACCESS_TOKEN, TAG_REFRESH_TOKEN } from "@/libs/constants";
 import { useEffect, useState } from "react";
 import { User } from "@/interfaces/User";
 import { toast } from "react-toastify";
+import { initializeFirebase } from "@/libs/firebase-client";
+
+initializeFirebase();
 
 const useAuth = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -10,7 +13,6 @@ const useAuth = () => {
   const [isSignedIn, setIsSignedIn] = useState<boolean>(false);
   const [user, setUser] = useState<User>({
     email: "",
-    username: "",
     createdAt: "",
     lastLogin: "",
   });
@@ -47,7 +49,27 @@ const useAuth = () => {
     }
   };
 
-  const signUp = async (email: string, username: string, password: string) => {
+  const createUser = async (accessToken: string, email: string) => {
+    const response = await fetch(`/api/createuser`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({ email }),
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+
+      setUser(data.user);
+      setIsSignedIn(true);
+    } else {
+      setIsSignedIn(false);
+    }
+  };
+
+  const signUp = async (email: string, password: string) => {
     setIsLoading(true);
     const response = await fetch(`/api/signup`, {
       method: "POST",
@@ -56,7 +78,6 @@ const useAuth = () => {
       },
       body: JSON.stringify({
         email,
-        username,
         password,
       }),
     });
@@ -239,52 +260,17 @@ const useAuth = () => {
     }
   };
 
-  const updateUsername = async (username: string) => {
-    setIsLoading(true);
-    const response = await fetch(`/api/updateusername`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-      },
-      body: JSON.stringify({
-        username,
-      }),
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      setUser(data.user);
-
-      setIsLoading(false);
-
-      toast.success(data.message);
-    } else {
-      if (response.status == 500) {
-        toast.error("Error occured on updating username.");
-      } else {
-        const data = await response.json();
-        toast.error(
-          data.error.message
-            ? data.error.message
-            : "Error occured on updating username."
-        );
-      }
-
-      setIsLoading(false);
-    }
-  };
-
   return {
     isLoading,
     isSignedIn,
     user,
+    checkAuth,
+    createUser,
     signUp,
     signIn,
     signOut,
     resetPassword,
     updateEmail,
-    updateUsername,
   };
 };
 

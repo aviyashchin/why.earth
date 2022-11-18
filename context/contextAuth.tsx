@@ -7,13 +7,13 @@ export const AuthContext = createContext({
   isSignedIn: false,
   user: {
     email: "",
-    username: "",
   },
+  checkAuth: async (token: string) => {},
+  createUser: async (token: string, email: string) => {},
   signIn: async (email: string, password: string) => {},
   signOut: async () => {},
-  signUp: async (email: string, username: string, password: string) => {},
+  signUp: async (email: string, password: string) => {},
   updateEmail: async (email: string) => {},
-  updateUsername: async (username: string) => {},
   resetPassword: async (email: string) => {
     return false;
   },
@@ -24,11 +24,12 @@ export const AuthProvider = ({ children }: { children: any }) => {
     isLoading,
     isSignedIn,
     user,
+    checkAuth,
+    createUser,
     signIn,
     signOut,
     signUp,
     updateEmail,
-    updateUsername,
     resetPassword,
   } = useAuth();
 
@@ -38,11 +39,12 @@ export const AuthProvider = ({ children }: { children: any }) => {
         isLoading,
         isSignedIn,
         user,
+        checkAuth,
+        createUser,
         signIn,
         signOut,
         signUp,
         updateEmail,
-        updateUsername,
         resetPassword,
       }}
     >

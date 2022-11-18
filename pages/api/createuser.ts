@@ -1,11 +1,7 @@
-import { db } from "@/libs/firebase-admin";
+import { db, auth } from "@/libs/firebase-admin";
 import moment from "moment";
-import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { User } from "@/interfaces/User";
-import { initializeFirebase } from "@/libs/firebase-client";
-
-const app = initializeFirebase();
 
 export default async function handler(
   req: NextApiRequest,
@@ -18,30 +14,37 @@ export default async function handler(
         .json({ error: { message: "It should be POST method." } });
     }
 
-    const { email, password } = req.body;
+    const { email } = req.body;
 
-    if (!email || !password) {
+    if (!email) {
       return res.status(400).json({
         error: { message: "Email and password are invalid." },
       });
     }
 
-    const credential = await createUserWithEmailAndPassword(
-      getAuth(app),
-      email,
-      password
-    );
-    const accessToken = await credential.user.getIdToken();
-    const refreshToken = credential.user.refreshToken;
+    let idToken = req.headers.authorization!;
+    if (idToken.includes("Bearer")) {
+      const regex = /Bearer (.+)/i;
+      idToken = req?.headers.authorization?.match(regex)?.[1]!;
+    } else {
+      return res.status(400).json({
+        error: {
+          message: "Authorization token invalid",
+        },
+      });
+    }
+
+    const decodedToken = await auth.verifyIdToken(idToken);
 
     const user: User = {
       email,
       createdAt: moment().format("YYYY-MM-DD HH:mm:ss"),
+      lastLogin: moment().format("YYYY-MM-DD HH:mm:ss"),
     };
 
-    await db.collection("users").doc(credential.user.uid).set(user);
+    await db.collection("users").doc(decodedToken.uid).set(user);
 
-    return res.json({ accessToken, refreshToken });
+    return res.json({ user });
   } catch (err: any) {
     console.log(err);
     const { code } = err;

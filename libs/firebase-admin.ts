@@ -1,25 +1,5 @@
 import admin, { ServiceAccount } from "firebase-admin";
-import { getApps, initializeApp } from "firebase/app";
-
-const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-  databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASEURL,
-  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
-  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
-};
-
-const initializeFirebase = () => {
-  const apps = getApps();
-  if (apps.length) {
-    return apps[0];
-  } else {
-    return initializeApp(firebaseConfig);
-  }
-};
+import { initializeFirebase } from "./firebase-client";
 
 if (!admin.apps.length) {
   initializeFirebase();
@@ -49,4 +29,4 @@ const db = admin.firestore();
 const auth = admin.auth();
 const storage = admin.storage();
 
-export { auth, db, storage, initializeFirebase };
+export { auth, db, storage };

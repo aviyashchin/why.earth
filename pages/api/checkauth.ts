@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { db, auth, initializeFirebase } from "@/libs/firebase";
+import { db, auth } from "@/libs/firebase-admin";
+import { initializeFirebase } from "@/libs/firebase-client";
 
 initializeFirebase();
 

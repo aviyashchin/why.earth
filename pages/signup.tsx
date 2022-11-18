@@ -10,7 +10,6 @@ export default function Signup() {
   const { isLoading, isSignedIn, signUp } = useAuthValues();
 
   const [email, setEmail] = useState<string>("");
-  const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
   const onSignup = (e: any = null) => {
@@ -20,12 +19,12 @@ export default function Signup() {
 
     if (isLoading) return;
 
-    if (!email || !username || !password) {
+    if (!email || !password) {
       toast.error("Please enter values correctly!");
       return;
     }
 
-    signUp(email, username, password);
+    signUp(email, password);
   };
 
   useEffect(() => {
@@ -60,19 +59,6 @@ export default function Signup() {
               }}
               className="flex w-full md:w-80 flex-grow h-16 bg-gray-50 border border-gray-300 text-gray-900 text-base md:text-lg rounded-lg outline-none focus:outline-none p-5"
               placeholder="Enter your email"
-            />
-            <input
-              type="text"
-              id="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key == "Enter") {
-                  onSignup();
-                }
-              }}
-              className="flex w-full md:w-80 flex-grow h-16 bg-gray-50 border border-gray-300 text-gray-900 text-base md:text-lg rounded-lg outline-none focus:outline-none p-5"
-              placeholder="Enter your username"
             />
             <input
               type="password"

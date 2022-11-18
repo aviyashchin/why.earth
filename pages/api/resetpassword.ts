@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
-import { initializeFirebase } from "@/libs/firebase";
+import { initializeFirebase } from "@/libs/firebase-client";
 
 const app = initializeFirebase();
 

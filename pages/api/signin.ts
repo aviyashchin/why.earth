@@ -1,7 +1,8 @@
 import moment from "moment";
 import { signInWithEmailAndPassword, getAuth } from "firebase/auth";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { db, initializeFirebase } from "@/libs/firebase";
+import { db } from "@/libs/firebase-admin";
+import { initializeFirebase } from "@/libs/firebase-client";
 
 const app = initializeFirebase();
 
