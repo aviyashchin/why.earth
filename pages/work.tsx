@@ -1,9 +1,7 @@
 import { useAuthValues } from "@/context/contextAuth";
 import Head from "next/head";
-import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
+import { useEffect } from "react";
 
 export default function Work() {
   const router = useRouter();

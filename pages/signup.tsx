@@ -1,4 +1,6 @@
 import { useAuthValues } from "@/context/contextAuth";
+import { TAG_EMAIL } from "@/libs/constants";
+import { validateEmail } from "@/libs/utils";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -32,6 +34,15 @@ export default function Signup() {
       router.push("/work");
     }
   }, [isSignedIn]);
+
+  useEffect(() => {
+    if (window) {
+      const email = window.localStorage.getItem(TAG_EMAIL);
+      if (email && validateEmail(email)) {
+        setEmail(email);
+      }
+    }
+  }, []);
 
   return (
     <div className="relative">

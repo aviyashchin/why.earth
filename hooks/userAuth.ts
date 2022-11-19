@@ -1,4 +1,8 @@
-import { TAG_ACCESS_TOKEN, TAG_REFRESH_TOKEN } from "@/libs/constants";
+import {
+  TAG_ACCESS_TOKEN,
+  TAG_EMAIL,
+  TAG_REFRESH_TOKEN,
+} from "@/libs/constants";
 import { useEffect, useState } from "react";
 import { User } from "@/interfaces/User";
 import { toast } from "react-toastify";
@@ -160,8 +164,7 @@ const useAuth = () => {
   };
 
   const signOut = async () => {
-    setIsLoading(true);
-    const response = await fetch(`/api/signout`, {
+    fetch(`/api/signout`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -169,29 +172,14 @@ const useAuth = () => {
       },
     });
 
-    if (response.ok) {
-      window.localStorage.setItem(TAG_ACCESS_TOKEN, "");
-      window.localStorage.setItem(TAG_REFRESH_TOKEN, "");
+    window.localStorage.setItem(TAG_ACCESS_TOKEN, "");
+    window.localStorage.setItem(TAG_REFRESH_TOKEN, "");
+    window.localStorage.setItem(TAG_EMAIL, "");
 
-      setAcessToken("");
-      setRefreshToken("");
+    setAcessToken("");
+    setRefreshToken("");
 
-      setIsSignedIn(false);
-      setIsLoading(false);
-    } else {
-      if (response.status == 500) {
-        toast.error("Error occured on signing out.");
-      } else {
-        const data = await response.json();
-        toast.error(
-          data.error.message
-            ? data.error.message
-            : "Error occured on signing out."
-        );
-      }
-      setIsSignedIn(false);
-      setIsLoading(false);
-    }
+    setIsSignedIn(false);
   };
 
   const resetPassword = async (email: string) => {

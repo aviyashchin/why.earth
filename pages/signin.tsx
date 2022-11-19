@@ -1,6 +1,10 @@
 import { useAuthValues } from "@/context/contextAuth";
-import { TAG_ACCESS_TOKEN, TAG_REFRESH_TOKEN } from "@/libs/constants";
-import { getErrorMessageForCode } from "@/libs/utils";
+import {
+  TAG_ACCESS_TOKEN,
+  TAG_EMAIL,
+  TAG_REFRESH_TOKEN,
+} from "@/libs/constants";
+import { getErrorMessageForCode, validateEmail } from "@/libs/utils";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { getAuth } from "firebase/auth";
 import Head from "next/head";
@@ -82,6 +86,15 @@ export default function Signin() {
       router.push("/work");
     }
   }, [isSignedIn]);
+
+  useEffect(() => {
+    if (window) {
+      const email = window.localStorage.getItem(TAG_EMAIL);
+      if (email && validateEmail(email)) {
+        setEmail(email);
+      }
+    }
+  }, []);
 
   return (
     <div className="relative">
