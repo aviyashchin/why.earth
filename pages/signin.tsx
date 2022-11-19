@@ -138,7 +138,7 @@ export default function Signin() {
             />
             <div className="w-full md:w-80 flex flex-row justify-between items-center">
               <button
-                className="flex-grow h-16 bg-green-600 hover:bg-green-800 rounded-lg px-8 py-5 transition-all duration-300 cursor-pointer"
+                className="flex-grow h-16 bg-green-600 hover:bg-green-800 rounded-lg transition-all duration-300 cursor-pointer"
                 onClick={onSignin}
               >
                 <span className="w-full text-white text-base md:text-lg font-bold whitespace-nowrap">

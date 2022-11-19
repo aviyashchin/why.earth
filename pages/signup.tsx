@@ -85,7 +85,7 @@ export default function Signup() {
               placeholder="Enter your password"
             />
             <button
-              className="w-full md:w-80 h-16 bg-green-600 hover:bg-green-800 rounded-lg px-8 py-5 transition-all duration-300 cursor-pointer"
+              className="w-full md:w-80 h-16 bg-green-600 hover:bg-green-800 rounded-lg transition-all duration-300 cursor-pointer"
               onClick={onSignup}
             >
               <span className="w-full text-white text-base md:text-lg font-bold whitespace-nowrap">
