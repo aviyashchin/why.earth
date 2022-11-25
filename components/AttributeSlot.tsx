@@ -67,7 +67,7 @@ const AttributeSlot = ({ attribute, selectedId, onClick, onSave }: Props) => {
       >
         <img
           className="w-full h-32 object-cover overflow-hidden"
-          src="/dummy1.png"
+          src={attribute.image}
         />
         {isEditing ? (
           <input

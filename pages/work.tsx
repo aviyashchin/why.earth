@@ -2,6 +2,7 @@ import AddSlot from "@/components/AddSlot";
 import AttributeSlot from "@/components/AttributeSlot";
 import OptionSlot from "@/components/OptionSlot";
 import { useAuthValues } from "@/context/contextAuth";
+import useOpenAI from "@/hooks/useOpenAI";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -33,6 +34,7 @@ export type Attribute = {
 export default function Work() {
   const router = useRouter();
   const { isLoading, isSignedIn } = useAuthValues();
+  const { isWorking, generateImage } = useOpenAI();
   const [problem, setProblem] = useState<string>("");
   const [step, setStep] = useState<PAGE_INDEX>(PAGE_INDEX.ENTER_PROBLEM);
   const [attributes, setAttributes] = useState<Array<Attribute>>([]);
@@ -85,10 +87,13 @@ export default function Work() {
     setSelectedOptionIds([]);
   };
 
-  const onAddAttribute = (e: any = null) => {
+  const onAddAttribute = async (e: any = null) => {
     if (e) {
       e.preventDefault();
     }
+
+    // Generate random image
+    const image = await generateImage("New Attribute");
 
     setAttribute(null);
 
@@ -96,7 +101,7 @@ export default function Work() {
       {
         id: 0,
         label: "New Attribute",
-        image: "/dummy1.png",
+        image,
         value: null,
         description: "",
         options: [],
@@ -108,10 +113,13 @@ export default function Work() {
     setAttributes(attributesArr);
   };
 
-  const onSaveAttribute = (label: string, description: string) => {
+  const onSaveAttribute = async (label: string, description: string) => {
     if (attribute) {
+      // Generate labeled image
+      const image = await generateImage(label);
       const attributesArr = attributes.slice();
       attributesArr[attribute.id].label = label;
+      attributesArr[attribute.id].image = image;
       attributesArr[attribute.id].description = description;
       setAttributes(attributesArr);
     }
@@ -136,19 +144,22 @@ export default function Work() {
     setOption(attribute?.options[id]);
   };
 
-  const onAddOption = (e: any = null) => {
+  const onAddOption = async (e: any = null) => {
     if (e) {
       e.preventDefault();
     }
 
     if (!attribute) return;
 
+    // Generate random image
+    const image = await generateImage("New Option");
+
     setOption(null);
 
     const newOption = {
       id: 0,
       label: "New Option",
-      image: "/dummy2.png",
+      image,
       value: null,
       description: "",
     };
@@ -167,12 +178,15 @@ export default function Work() {
     setAttributes(attributesArr);
   };
 
-  const onSaveOption = (label: string, description: string) => {
+  const onSaveOption = async (label: string, description: string) => {
     if (!attribute) return;
 
     if (option) {
+      // Generate labeled image
+      const image = await generateImage(label);
       const updateAttribute = Object.assign({}, attribute);
       updateAttribute.options[option.id].label = label;
+      updateAttribute.options[option.id].image = image;
       updateAttribute.options[option.id].description = description;
       setAttribute(updateAttribute);
       const attributesArr = attributes.slice();
@@ -310,7 +324,7 @@ export default function Work() {
           )}
         </div>
       </main>
-      {isLoading && <div className="loading"></div>}
+      {(isLoading || isWorking) && <div className="loading"></div>}
     </div>
   );
 }
