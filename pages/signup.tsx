@@ -95,9 +95,9 @@ export default function Signup() {
             <p className="text-white text-base flex flex-row">
               Already have account?&nbsp;&nbsp;
               <Link href="/signin">
-                <p className="text-green-600 hover:text-green-800 cursor-pointer">
+                <span className="text-green-600 hover:text-green-800 cursor-pointer">
                   Sign In
-                </p>
+                </span>
               </Link>
             </p>
           </div>

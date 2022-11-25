@@ -66,6 +66,5 @@ a {
   z-index: 50;
   width: 100vw;
   height: 100vh;
-  background: 00000088;
   backdrop-filter: blur(30px);
 }
