@@ -1,7 +1,5 @@
 import AddSlot from "@/components/AddSlot";
-import AttributeModal from "@/components/AttributeModal";
 import AttributeSlot from "@/components/AttributeSlot";
-import OptionModal from "@/components/OptionModal";
 import OptionSlot from "@/components/OptionSlot";
 import { useAuthValues } from "@/context/contextAuth";
 import Head from "next/head";
@@ -41,9 +39,6 @@ export default function Work() {
   const [attribute, setAttribute] = useState<Attribute | null>();
   const [option, setOption] = useState<Option | null>();
   const [selectedOptionIds, setSelectedOptionIds] = useState<Array<number>>([]);
-  const [isOpenAttributeModal, setIsOpenAttributeModal] =
-    useState<boolean>(false);
-  const [isOpenOptionModal, setIsOpenOptionModal] = useState<boolean>(false);
 
   const goEnterProblem = (e: any = null) => {
     if (e) {
@@ -82,18 +77,49 @@ export default function Work() {
     router.push("/final");
   };
 
+  //############################################################################################
+  //################################### Attribute ##############################################
+  //############################################################################################
   const onSelectAttribute = (id: number) => {
     setAttribute(attributes[id]);
     setSelectedOptionIds([]);
   };
 
-  const onEditAttribute = (id: number) => {
-    setAttribute(attributes[id]);
-    setSelectedOptionIds([]);
+  const onAddAttribute = (e: any = null) => {
+    if (e) {
+      e.preventDefault();
+    }
 
-    setIsOpenAttributeModal(true);
+    setAttribute(null);
+
+    const attributesArr = [
+      {
+        id: 0,
+        label: "New Attribute",
+        image: "/dummy1.png",
+        value: null,
+        description: "",
+        options: [],
+      },
+      ...attributes.map((attr, index) => {
+        return { ...attr, id: index + 1 };
+      }),
+    ];
+    setAttributes(attributesArr);
   };
 
+  const onSaveAttribute = (label: string, description: string) => {
+    if (attribute) {
+      const attributesArr = attributes.slice();
+      attributesArr[attribute.id].label = label;
+      attributesArr[attribute.id].description = description;
+      setAttributes(attributesArr);
+    }
+  };
+
+  //############################################################################################
+  //#################################### Option ################################################
+  //############################################################################################
   const onSelectOption = (id: number) => {
     let optionIds = selectedOptionIds.slice();
     if (optionIds.includes(id)) {
@@ -107,54 +133,7 @@ export default function Work() {
       optionIds.push(id);
     }
     setSelectedOptionIds(optionIds);
-  };
-
-  const onEditOption = (id: number) => {
     setOption(attribute?.options[id]);
-
-    setIsOpenOptionModal(true);
-  };
-
-  const onAddAttribute = (e: any = null) => {
-    if (e) {
-      e.preventDefault();
-    }
-
-    setAttribute(null);
-    setIsOpenAttributeModal(true);
-  };
-
-  const onSaveAttribute = (
-    file: File,
-    label: string,
-    description: string,
-    isCreate: boolean
-  ) => {
-    if (isCreate) {
-      const attributesArr = [
-        {
-          id: 0,
-          label,
-          image: "/dummy1.png",
-          value: null,
-          description,
-          options: [],
-        },
-        ...attributes.map((attr, index) => {
-          return { ...attr, id: index + 1 };
-        }),
-      ];
-      setAttributes(attributesArr);
-    } else {
-      if (attribute) {
-        const attributesArr = attributes.slice();
-        attributesArr[attribute.id].label = label;
-        attributesArr[attribute.id].description = description;
-        setAttributes(attributesArr);
-      }
-    }
-
-    setIsOpenAttributeModal(false);
   };
 
   const onAddOption = (e: any = null) => {
@@ -162,52 +141,44 @@ export default function Work() {
       e.preventDefault();
     }
 
-    setOption(null);
-    setIsOpenOptionModal(true);
-  };
-
-  const onSaveOption = (
-    file: File,
-    label: string,
-    description: string,
-    isCreate: boolean
-  ) => {
     if (!attribute) return;
 
-    if (isCreate) {
-      const newOption = {
-        id: 0,
-        label,
-        image: "/dummy2.png",
-        value: null,
-        description,
-      };
-      const newAttribute = {
-        ...attribute,
-        options: [
-          newOption,
-          ...attribute.options.map((option, index) => {
-            return { ...option, id: index + 1 };
-          }),
-        ],
-      };
-      setAttribute(newAttribute);
-      const attributesArr = attributes.slice();
-      attributesArr[attribute.id] = newAttribute;
-      setAttributes(attributesArr);
-    } else {
-      if (option) {
-        const updateAttribute = Object.assign({}, attribute);
-        updateAttribute.options[option.id].label = label;
-        updateAttribute.options[option.id].description = description;
-        setAttribute(updateAttribute);
-        const attributesArr = attributes.slice();
-        attributesArr[attribute.id] = updateAttribute;
-        setAttributes(attributesArr);
-      }
-    }
+    setOption(null);
 
-    setIsOpenOptionModal(false);
+    const newOption = {
+      id: 0,
+      label: "New Option",
+      image: "/dummy2.png",
+      value: null,
+      description: "",
+    };
+    const newAttribute = {
+      ...attribute,
+      options: [
+        newOption,
+        ...attribute.options.map((option, index) => {
+          return { ...option, id: index + 1 };
+        }),
+      ],
+    };
+    setAttribute(newAttribute);
+    const attributesArr = attributes.slice();
+    attributesArr[attribute.id] = newAttribute;
+    setAttributes(attributesArr);
+  };
+
+  const onSaveOption = (label: string, description: string) => {
+    if (!attribute) return;
+
+    if (option) {
+      const updateAttribute = Object.assign({}, attribute);
+      updateAttribute.options[option.id].label = label;
+      updateAttribute.options[option.id].description = description;
+      setAttribute(updateAttribute);
+      const attributesArr = attributes.slice();
+      attributesArr[attribute.id] = updateAttribute;
+      setAttributes(attributesArr);
+    }
   };
 
   useEffect(() => {
@@ -269,7 +240,7 @@ export default function Work() {
                         attribute={attr}
                         selectedId={attribute?.id}
                         onClick={onSelectAttribute}
-                        onDoubleClick={onEditAttribute}
+                        onSave={onSaveAttribute}
                       />
                     );
                   })}
@@ -311,7 +282,7 @@ export default function Work() {
                         option={option}
                         selectedIds={selectedOptionIds}
                         onClick={onSelectOption}
-                        onDoubleClick={onEditOption}
+                        onSave={onSaveOption}
                       />
                     );
                   })}
@@ -339,21 +310,6 @@ export default function Work() {
           )}
         </div>
       </main>
-
-      {isOpenAttributeModal && (
-        <AttributeModal
-          attribute={attribute}
-          setIsOpen={setIsOpenAttributeModal}
-          onSave={onSaveAttribute}
-        />
-      )}
-      {isOpenOptionModal && (
-        <OptionModal
-          option={option}
-          setIsOpen={setIsOpenOptionModal}
-          onSave={onSaveOption}
-        />
-      )}
       {isLoading && <div className="loading"></div>}
     </div>
   );
