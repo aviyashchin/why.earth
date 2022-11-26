@@ -16,19 +16,19 @@ const useOpenAI = () => {
         .createImage({
           prompt: prompt,
           n: 1,
-          size: "512x512",
+          size: "256x256",
         })
         .then((res) => {
           if (res && res.data.data[0].url) {
             resolve(res.data.data[0].url);
           } else {
-            resolve("/dummy1.png");
+            resolve("/dummy.png");
           }
           setIsWorking(false);
         })
         .catch((e) => {
           console.log(e);
-          resolve("/dummy2.png");
+          resolve("/dummy.png");
           setIsWorking(false);
         });
     });

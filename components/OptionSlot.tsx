@@ -13,6 +13,7 @@ const OptionSlot = ({ option, selectedIds, onClick, onSave }: Props) => {
   const ref = useRef(null);
   const refInput = useRef(null);
   let start = 0;
+  const [image, setImage] = useState<string>("");
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [label, setLabel] = useState<string>(option.label);
 
@@ -55,24 +56,38 @@ const OptionSlot = ({ option, selectedIds, onClick, onSave }: Props) => {
     }
   }, [refInput, isEditing]);
 
+  useEffect(() => {
+    setImage("");
+    option.image.then((image) => {
+      setImage(image);
+    });
+  }, [option.image]);
+
   return (
     <div ref={ref} className="w-full flex justify-center items-center">
       <div
-        className={`w-36 h-36 border flex flex-col justify-start items-start space-y-2 overflow-hidden rounded-md ${
+        className={`w-36 h-36 border flex flex-col justify-start items-start overflow-hidden rounded-md ${
           selectedIds.includes(option.id) ? "border-white" : "border-gray-500"
         } cursor-pointer`}
         onClick={(e) => onClicked(e, option.id)}
         onTouchStart={() => onMouseDown(option.id)}
         onTouchEnd={() => onMouseUp(option.id)}
       >
-        <img
-          className="w-full h-32 object-cover overflow-hidden"
-          src={option.image}
-        />
+        {image ? (
+          <img
+            className="w-full h-32 object-cover overflow-hidden"
+            src={image}
+          />
+        ) : (
+          <div className="w-full h-32 flex justify-center items-center">
+            <div className="animate-spin rounded-full w-10 h-10 border-t-2 border-white"></div>
+          </div>
+        )}
+
         {isEditing ? (
           <input
             ref={refInput}
-            className="p-2 text-left h-8 text-sm bg-slate-400 text-black w-full overflow-hidden text-ellipsis outline-none focus:outline-none"
+            className="p-2 h-8 text-left text-sm bg-slate-400 text-black w-full overflow-hidden text-ellipsis outline-none focus:outline-none"
             value={label}
             onChange={(e) => setLabel(e.target.value)}
             onKeyDown={(e) => {
@@ -83,7 +98,7 @@ const OptionSlot = ({ option, selectedIds, onClick, onSave }: Props) => {
             }}
           />
         ) : (
-          <p className="p-2 h-8 text-left text-sm text-white w-full overflow-hidden text-ellipsis">
+          <p className="p-2 h-8 text-left text-sm text-white w-full flex justify-start items-center overflow-hidden text-ellipsis">
             {option.label}
           </p>
         )}

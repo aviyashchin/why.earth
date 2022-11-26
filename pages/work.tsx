@@ -16,7 +16,7 @@ export enum PAGE_INDEX {
 
 export type Option = {
   id: number;
-  image: string;
+  image: Promise<string>;
   label: string;
   value: any;
   description: string;
@@ -25,7 +25,7 @@ export type Option = {
 export type Attribute = {
   id: number;
   label: string;
-  image: string;
+  image: Promise<string>;
   value: any;
   description: string;
   options: Array<Option>;
@@ -87,13 +87,10 @@ export default function Work() {
     setSelectedOptionIds([]);
   };
 
-  const onAddAttribute = async (e: any = null) => {
+  const onAddAttribute = (e: any = null) => {
     if (e) {
       e.preventDefault();
     }
-
-    // Generate random image
-    const image = await generateImage("New Attribute");
 
     setAttribute(null);
 
@@ -101,7 +98,7 @@ export default function Work() {
       {
         id: 0,
         label: "New Attribute",
-        image,
+        image: generateImage("New Attribute"),
         value: null,
         description: "",
         options: [],
@@ -113,13 +110,11 @@ export default function Work() {
     setAttributes(attributesArr);
   };
 
-  const onSaveAttribute = async (label: string, description: string) => {
+  const onSaveAttribute = (label: string, description: string) => {
     if (attribute) {
-      // Generate labeled image
-      const image = await generateImage(label);
       const attributesArr = attributes.slice();
       attributesArr[attribute.id].label = label;
-      attributesArr[attribute.id].image = image;
+      attributesArr[attribute.id].image = generateImage(label);
       attributesArr[attribute.id].description = description;
       setAttributes(attributesArr);
     }
@@ -144,22 +139,19 @@ export default function Work() {
     setOption(attribute?.options[id]);
   };
 
-  const onAddOption = async (e: any = null) => {
+  const onAddOption = (e: any = null) => {
     if (e) {
       e.preventDefault();
     }
 
     if (!attribute) return;
 
-    // Generate random image
-    const image = await generateImage("New Option");
-
     setOption(null);
 
     const newOption = {
       id: 0,
       label: "New Option",
-      image,
+      image: generateImage("New Option"),
       value: null,
       description: "",
     };
@@ -178,15 +170,13 @@ export default function Work() {
     setAttributes(attributesArr);
   };
 
-  const onSaveOption = async (label: string, description: string) => {
+  const onSaveOption = (label: string, description: string) => {
     if (!attribute) return;
 
     if (option) {
-      // Generate labeled image
-      const image = await generateImage(label);
       const updateAttribute = Object.assign({}, attribute);
       updateAttribute.options[option.id].label = label;
-      updateAttribute.options[option.id].image = image;
+      updateAttribute.options[option.id].image = generateImage(label);
       updateAttribute.options[option.id].description = description;
       setAttribute(updateAttribute);
       const attributesArr = attributes.slice();
@@ -289,11 +279,11 @@ export default function Work() {
               <div className="w-full md:w-96 flex-grow md:flex-grow-0 overflow-hidden overflow-y-auto">
                 <div className="w-full h-auto md:h-[300px] md:min-h-[300px] md:max-h-[300px] grid grid-cols-2 gap-2">
                   <AddSlot onClick={onAddOption} />
-                  {attribute?.options.map((option, index) => {
+                  {attribute?.options.map((opt, index) => {
                     return (
                       <OptionSlot
                         key={index}
-                        option={option}
+                        option={opt}
                         selectedIds={selectedOptionIds}
                         onClick={onSelectOption}
                         onSave={onSaveOption}
@@ -324,7 +314,7 @@ export default function Work() {
           )}
         </div>
       </main>
-      {(isLoading || isWorking) && <div className="loading"></div>}
+      {isLoading && <div className="loading"></div>}
     </div>
   );
 }
