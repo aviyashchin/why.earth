@@ -76,7 +76,7 @@ const OptionSlot = ({ option, selectedIds, onClick, onSave }: Props) => {
   return (
     <div ref={ref} className="w-full flex justify-center items-center">
       <div
-        className={`w-36 h-36 border flex flex-col justify-start items-start overflow-hidden rounded-md ${
+        className={`w-36 h-36 border flex flex-col justify-start items-start overflow-hidden rounded-md select-none ${
           selectedIds.includes(option.id)
             ? "border-green-500"
             : "border-gray-500"
@@ -114,7 +114,7 @@ const OptionSlot = ({ option, selectedIds, onClick, onSave }: Props) => {
             }}
           />
         ) : (
-          <p className="p-2 h-8 max-h-[32px] text-left text-sm text-white w-full max-w-[130px] flex justify-start items-center whitespace-nowrap overflow-hidden text-ellipsis">
+          <p className="p-2 h-8 max-h-[32px] text-left text-sm text-white w-full max-w-[130px] flex justify-start items-center whitespace-nowrap overflow-hidden text-ellipsis select-none">
             {option.label}
           </p>
         )}
