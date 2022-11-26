@@ -27,7 +27,6 @@ const useOpenAI = () => {
           setIsWorking(false);
         })
         .catch((e) => {
-          console.log(e);
           resolve("/dummy.png");
           setIsWorking(false);
         });

@@ -34,12 +34,15 @@ export type Attribute = {
 export default function Work() {
   const router = useRouter();
   const { isLoading, isSignedIn } = useAuthValues();
-  const { isWorking, generateImage } = useOpenAI();
+  const { generateImage } = useOpenAI();
   const [problem, setProblem] = useState<string>("");
   const [step, setStep] = useState<PAGE_INDEX>(PAGE_INDEX.ENTER_PROBLEM);
   const [attributes, setAttributes] = useState<Array<Attribute>>([]);
   const [attribute, setAttribute] = useState<Attribute | null>();
   const [option, setOption] = useState<Option | null>();
+  const [selectedAttributeIds, setSelectedAttributeIds] = useState<
+    Array<number>
+  >([]);
   const [selectedOptionIds, setSelectedOptionIds] = useState<Array<number>>([]);
 
   const goEnterProblem = (e: any = null) => {
@@ -83,6 +86,19 @@ export default function Work() {
   //################################### Attribute ##############################################
   //############################################################################################
   const onSelectAttribute = (id: number) => {
+    let attributeIds = selectedAttributeIds.slice();
+    if (attributeIds.includes(id)) {
+      const index = attributeIds.indexOf(id);
+      attributeIds = attributeIds.splice(index, 1);
+    } else {
+      if (attributeIds.length == 3) {
+        toast.error("You can not select more than 3 attributes.");
+        return;
+      }
+      attributeIds.push(id);
+    }
+    setSelectedAttributeIds(attributeIds);
+
     setAttribute(attributes[id]);
     setSelectedOptionIds([]);
   };
@@ -94,49 +110,52 @@ export default function Work() {
 
     setAttribute(null);
 
-    const attributesArr = [
-      {
-        id: 0,
-        label: "New Attribute",
-        image: generateImage("New Attribute"),
-        value: null,
-        description: "",
-        options: [],
-      },
-      ...attributes.map((attr, index) => {
-        return { ...attr, id: index + 1 };
-      }),
-    ];
+    const attributesArr = attributes.slice();
+    attributesArr.push({
+      id: attributesArr.length,
+      label: "New Attribute",
+      image: generateImage("New Attribute"),
+      value: null,
+      description: "",
+      options: [],
+    });
     setAttributes(attributesArr);
   };
 
   const onSaveAttribute = (label: string, description: string) => {
-    if (attribute) {
-      const attributesArr = attributes.slice();
-      attributesArr[attribute.id].label = label;
-      attributesArr[attribute.id].image = generateImage(label);
-      attributesArr[attribute.id].description = description;
-      setAttributes(attributesArr);
-    }
+    if (!attribute) return;
+
+    const attributesArr = attributes.slice();
+    const attributeObj = Object.assign({}, attribute);
+
+    attributeObj.label = label;
+    attributeObj.image = generateImage(label);
+    attributeObj.description = description;
+    setAttribute(attributeObj);
+
+    attributesArr[attributeObj.id] = attributeObj;
+    setAttributes(attributesArr);
   };
 
   //############################################################################################
   //#################################### Option ################################################
   //############################################################################################
   const onSelectOption = (id: number) => {
+    if (!attribute) return;
+
     let optionIds = selectedOptionIds.slice();
     if (optionIds.includes(id)) {
       const index = optionIds.indexOf(id);
       optionIds = optionIds.splice(index, 1);
     } else {
-      if (selectedOptionIds.length == 3) {
+      if (optionIds.length == 3) {
         toast.error("You can not select more than 3 options.");
         return;
       }
       optionIds.push(id);
     }
     setSelectedOptionIds(optionIds);
-    setOption(attribute?.options[id]);
+    setOption(attribute.options[id]);
   };
 
   const onAddOption = (e: any = null) => {
@@ -148,41 +167,39 @@ export default function Work() {
 
     setOption(null);
 
-    const newOption = {
-      id: 0,
+    const attributeObj = Object.assign({}, attribute);
+    const optionsArr = attributeObj.options.slice();
+    optionsArr.push({
+      id: optionsArr.length,
       label: "New Option",
       image: generateImage("New Option"),
       value: null,
       description: "",
-    };
-    const newAttribute = {
-      ...attribute,
-      options: [
-        newOption,
-        ...attribute.options.map((option, index) => {
-          return { ...option, id: index + 1 };
-        }),
-      ],
-    };
-    setAttribute(newAttribute);
+    });
+    attributeObj.options = optionsArr;
+    setAttribute(attributeObj);
+
     const attributesArr = attributes.slice();
-    attributesArr[attribute.id] = newAttribute;
+    attributesArr[attributeObj.id] = attributeObj;
     setAttributes(attributesArr);
   };
 
   const onSaveOption = (label: string, description: string) => {
-    if (!attribute) return;
+    if (!attribute || !option) return;
 
-    if (option) {
-      const updateAttribute = Object.assign({}, attribute);
-      updateAttribute.options[option.id].label = label;
-      updateAttribute.options[option.id].image = generateImage(label);
-      updateAttribute.options[option.id].description = description;
-      setAttribute(updateAttribute);
-      const attributesArr = attributes.slice();
-      attributesArr[attribute.id] = updateAttribute;
-      setAttributes(attributesArr);
-    }
+    const attributeObj = Object.assign({}, attribute);
+    const optionObj = Object.assign({}, option);
+    optionObj.label = label;
+    optionObj.image = generateImage(label);
+    optionObj.description = description;
+    setOption(optionObj);
+
+    attributeObj.options[optionObj.id] = optionObj;
+    setAttribute(attributeObj);
+
+    const attributesArr = attributes.slice();
+    attributesArr[attributeObj.id] = attributeObj;
+    setAttributes(attributesArr);
   };
 
   useEffect(() => {
@@ -203,18 +220,18 @@ export default function Work() {
         <div className="w-full h-full flex flex-col justify-start md:justify-center items-center space-y-3 z-10">
           {step == PAGE_INDEX.ENTER_PROBLEM && (
             <>
-              <h1 className="w-full md:w-96 text-white text-xl md:text-2xl text-center font-semibold mb-10">
+              <h1 className="w-full md:w-[768px] text-white text-xl md:text-2xl text-center mb-10">
                 What is your biggest problem in life today?
               </h1>
-              <p className="w-full md:w-96 text-white text-base text-left">
+              <p className="w-full md:w-[768px] text-white text-base text-left">
                 Problem
               </p>
               <textarea
-                className="w-full md:w-96 flex-grow md:flex-grow-0 h-auto md:h-[300px] md:min-h-[300px] md:max-h-[300px] bg-gray-50 border border-gray-300 text-gray-900 text-base md:text-lg rounded-lg outline-none focus:outline-none p-2"
+                className="w-full md:w-[768px] flex-grow md:flex-grow-0 h-auto md:h-[300px] md:min-h-[300px] md:max-h-[300px] bg-gray-50 border border-gray-300 text-gray-900 text-base md:text-lg rounded-lg outline-none focus:outline-none p-2"
                 value={problem}
                 onChange={(e) => setProblem(e.target.value)}
               ></textarea>
-              <div className="w-full md:w-96 flex flex-row justify-between items-center space-x-2">
+              <div className="w-full md:w-[768px] flex flex-row justify-between items-center space-x-2">
                 <button
                   className="flex-grow h-12 bg-green-600 hover:bg-green-800 rounded-lg transition-all duration-300 cursor-pointer"
                   onClick={goSelectAttribute}
@@ -228,21 +245,21 @@ export default function Work() {
           )}
           {step == PAGE_INDEX.SELECT_ATTRIBUTE && (
             <>
-              <h1 className="w-full md:w-96 text-white text-xl md:text-2xl text-center">
+              <h1 className="w-full md:w-[768px] text-white text-xl md:text-2xl text-center">
                 Select some Attributes Important to
               </h1>
-              <h1 className="w-full md:w-96 text-white text-xl md:text-2xl font-bold text-center mb-10 overflow-hidden text-ellipsis">
+              <h1 className="w-full md:w-[768px] text-white text-xl md:text-2xl font-bold text-center mb-10 overflow-hidden text-ellipsis">
                 {problem}
               </h1>
-              <div className="w-full md:w-96 flex-grow md:flex-grow-0 overflow-y-auto">
-                <div className="w-full h-auto md:h-[300px] md:min-h-[300px] md:max-h-[300px] grid grid-cols-2 gap-2">
+              <div className="w-full md:w-[768px] flex-grow md:flex-grow-0 overflow-y-auto">
+                <div className="w-full h-auto md:h-[300px] md:min-h-[300px] md:max-h-[300px] grid grid-cols-2 md:grid-cols-5 gap-2">
                   <AddSlot onClick={onAddAttribute} />
                   {attributes.map((attr, index) => {
                     return (
                       <AttributeSlot
                         key={index}
                         attribute={attr}
-                        selectedId={attribute?.id}
+                        selectedIds={selectedAttributeIds}
                         onClick={onSelectAttribute}
                         onSave={onSaveAttribute}
                       />
@@ -250,7 +267,7 @@ export default function Work() {
                   })}
                 </div>
               </div>
-              <div className="w-full md:w-96 flex flex-row justify-between items-center space-x-2">
+              <div className="w-full md:w-[768px] flex flex-row justify-between items-center space-x-2">
                 <button
                   className="flex-grow h-12 bg-green-600 hover:bg-green-800 rounded-lg transition-all duration-300 cursor-pointer"
                   onClick={goEnterProblem}
@@ -272,12 +289,12 @@ export default function Work() {
           )}
           {step == PAGE_INDEX.SELECT_OPTION && (
             <>
-              <h1 className="w-full md:w-96 text-white text-xl md:text-2xl text-center font-semibold mb-10">
+              <h1 className="w-full md:w-[768px] text-white text-xl md:text-2xl text-center">
                 For Attribute <b>{attribute?.label}</b> Select three options to
                 test
               </h1>
-              <div className="w-full md:w-96 flex-grow md:flex-grow-0 overflow-hidden overflow-y-auto">
-                <div className="w-full h-auto md:h-[300px] md:min-h-[300px] md:max-h-[300px] grid grid-cols-2 gap-2">
+              <div className="w-full md:w-[768px] flex-grow md:flex-grow-0 overflow-hidden overflow-y-auto">
+                <div className="w-full h-auto md:h-[300px] md:min-h-[300px] md:max-h-[300px] grid grid-cols-2 md:grid-cols-5 gap-2">
                   <AddSlot onClick={onAddOption} />
                   {attribute?.options.map((opt, index) => {
                     return (
@@ -292,7 +309,7 @@ export default function Work() {
                   })}
                 </div>
               </div>
-              <div className="w-full md:w-96 flex flex-row justify-between items-center space-x-2">
+              <div className="w-full md:w-[768px] flex flex-row justify-between items-center space-x-2">
                 <button
                   className="flex-grow h-12 bg-green-600 hover:bg-green-800 rounded-lg transition-all duration-300 cursor-pointer"
                   onClick={goSelectAttribute}

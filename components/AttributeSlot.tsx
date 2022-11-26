@@ -4,12 +4,12 @@ import { useEffect, useRef, useState } from "react";
 
 type Props = {
   attribute: Attribute;
-  selectedId: number | undefined;
+  selectedIds: Array<number>;
   onClick: any;
   onSave: any;
 };
 
-const AttributeSlot = ({ attribute, selectedId, onClick, onSave }: Props) => {
+const AttributeSlot = ({ attribute, selectedIds, onClick, onSave }: Props) => {
   const ref = useRef(null);
   const refInput = useRef(null);
   let start = 0;
@@ -67,7 +67,9 @@ const AttributeSlot = ({ attribute, selectedId, onClick, onSave }: Props) => {
     <div ref={ref} className="w-full flex justify-center items-center">
       <div
         className={`w-36 h-36 border flex flex-col justify-start items-start overflow-hidden rounded-md ${
-          selectedId == attribute.id ? "border-white" : "border-gray-500"
+          selectedIds.includes(attribute.id)
+            ? "border-white"
+            : "border-gray-500"
         } cursor-pointer`}
         onClick={(e) => onClicked(e, attribute.id)}
         onTouchStart={() => onMouseDown(attribute.id)}
