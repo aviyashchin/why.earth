@@ -1,6 +1,7 @@
 import { LONG_PRESS_DELAY } from "@/libs/constants";
 import { Option } from "pages/work";
 import { useEffect, useRef, useState } from "react";
+import { isMobile } from "react-device-detect";
 import { toast } from "react-toastify";
 
 type Props = {
@@ -18,15 +19,33 @@ const OptionSlot = ({ option, selectedIds, onClick, onSave }: Props) => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [label, setLabel] = useState<string>(option.label);
 
-  const onClicked = (id: number) => {
-    onClick(id);
-  };
+  const onMouseDown = (e: any, id: number) => {
+    if (isMobile) return;
 
-  const onMouseDown = (id: number) => {
     start = Date.now();
   };
 
-  const onMouseUp = (id: number) => {
+  const onMouseUp = (e: any, id: number) => {
+    if (isMobile) return;
+
+    onClick(id);
+
+    if (Date.now() - start > LONG_PRESS_DELAY) {
+      setIsEditing(true);
+    }
+  };
+
+  const onTouchStart = (e: any, id: number) => {
+    if (!isMobile) return;
+
+    start = Date.now();
+  };
+
+  const onTouchEnd = (e: any, id: number) => {
+    if (!isMobile) return;
+
+    onClick(id);
+
     if (Date.now() - start > LONG_PRESS_DELAY) {
       setIsEditing(true);
     }
@@ -81,11 +100,10 @@ const OptionSlot = ({ option, selectedIds, onClick, onSave }: Props) => {
             ? "border-green-500"
             : "border-gray-500"
         } cursor-pointer`}
-        onClick={() => onClicked(option.id)}
-        onMouseDown={() => onMouseDown(option.id)}
-        onMouseUp={() => onMouseUp(option.id)}
-        onTouchStart={() => onMouseDown(option.id)}
-        onTouchEnd={() => onMouseUp(option.id)}
+        onMouseDown={(e) => onMouseDown(e, option.id)}
+        onMouseUp={(e) => onMouseUp(e, option.id)}
+        onTouchStart={(e) => onTouchStart(e, option.id)}
+        onTouchEnd={(e) => onTouchEnd(e, option.id)}
       >
         {image ? (
           <img

@@ -92,8 +92,7 @@ export default function Work() {
       attributeIds = attributeIds.splice(index, 1);
     } else {
       if (attributeIds.length == 3) {
-        toast.error("You can not select more than 3 attributes.");
-        return;
+        attributeIds = [];
       }
       attributeIds.push(id);
     }
@@ -149,8 +148,7 @@ export default function Work() {
       optionIds = optionIds.splice(index, 1);
     } else {
       if (optionIds.length == 3) {
-        toast.error("You can not select more than 3 options.");
-        return;
+        optionIds = [];
       }
       optionIds.push(id);
     }

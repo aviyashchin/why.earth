@@ -1,6 +1,7 @@
 import { LONG_PRESS_DELAY } from "@/libs/constants";
 import { Attribute } from "pages/work";
 import { useEffect, useRef, useState } from "react";
+import { isMobile } from "react-device-detect";
 import { toast } from "react-toastify";
 
 type Props = {
@@ -18,15 +19,33 @@ const AttributeSlot = ({ attribute, selectedIds, onClick, onSave }: Props) => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [label, setLabel] = useState<string>(attribute.label);
 
-  const onClicked = (id: number) => {
-    onClick(id);
-  };
+  const onMouseDown = (e: any, id: number) => {
+    if (isMobile) return;
 
-  const onMouseDown = (id: number) => {
     start = Date.now();
   };
 
-  const onMouseUp = (id: number) => {
+  const onMouseUp = (e: any, id: number) => {
+    if (isMobile) return;
+
+    onClick(id);
+
+    if (Date.now() - start > LONG_PRESS_DELAY) {
+      setIsEditing(true);
+    }
+  };
+
+  const onTouchStart = (e: any, id: number) => {
+    if (!isMobile) return;
+
+    start = Date.now();
+  };
+
+  const onTouchEnd = (e: any, id: number) => {
+    if (!isMobile) return;
+
+    onClick(id);
+
     if (Date.now() - start > LONG_PRESS_DELAY) {
       setIsEditing(true);
     }
@@ -81,11 +100,10 @@ const AttributeSlot = ({ attribute, selectedIds, onClick, onSave }: Props) => {
             ? "border-green-500"
             : "border-gray-500"
         } cursor-pointer`}
-        onClick={() => onClicked(attribute.id)}
-        onMouseDown={() => onMouseDown(attribute.id)}
-        onMouseUp={() => onMouseUp(attribute.id)}
-        onTouchStart={() => onMouseDown(attribute.id)}
-        onTouchEnd={() => onMouseUp(attribute.id)}
+        onMouseDown={(e) => onMouseDown(e, attribute.id)}
+        onMouseUp={(e) => onMouseUp(e, attribute.id)}
+        onTouchStart={(e) => onTouchStart(e, attribute.id)}
+        onTouchEnd={(e) => onTouchEnd(e, attribute.id)}
       >
         {image ? (
           <img
