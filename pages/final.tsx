@@ -35,8 +35,8 @@ export default function Final() {
 
       <main className="relative left-0 top-0 w-screen h-screen flex flex-col justify-center items-center md:items-start p-5 md:p-10">
         <div className="w-full h-full flex flex-col justify-center items-center space-y-5 z-10">
-          <h1 className="text-center text-white text-2xl">Works Fine!</h1>
-          <p className="text-base text-white my-2 w-full md:w-96 h-40 overflow-y-auto">
+          <h1 className="text-center text-black text-2xl">Works Fine!</h1>
+          <p className="text-base text-black my-2 w-full md:w-96 h-40 overflow-y-auto">
             {JSON.stringify(attributes)}
           </p>
           <button

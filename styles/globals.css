@@ -2,13 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "ShareTech";
+  font-style: normal;
+  font-weight: normal;
+  src: local("ShareTech"),
+    url("../public/fonts/ShareTech-Regular.ttf") format("truetype");
+}
+
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-  background: #11253e;
+  font-family: "ShareTech", sans-serif;
+  background: #ffffff;
   width: 100vw;
   min-width: 100vw;
   max-width: 100vw;
@@ -35,6 +42,7 @@ a {
 }
 
 .Satellite__globe {
+  color: #ffffff;
   position: absolute;
   left: 50%;
   top: 50%;

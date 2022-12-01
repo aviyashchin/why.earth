@@ -93,7 +93,7 @@ const OptionSlot = ({ option, selectedIds, onClick, onSave }: Props) => {
           />
         ) : (
           <div className="w-full h-32 flex justify-center items-center">
-            <div className="animate-spin rounded-full w-10 h-10 border-t-2 border-white"></div>
+            <div className="animate-spin rounded-full w-10 h-10 border-t-2 border-gray-500"></div>
           </div>
         )}
         {!isEditing && !isMobile && isMouseOver && (
@@ -130,7 +130,7 @@ const OptionSlot = ({ option, selectedIds, onClick, onSave }: Props) => {
             }}
           />
         ) : (
-          <p className="p-2 h-8 max-h-[32px] text-left text-sm text-white w-full max-w-[130px] flex justify-start items-center whitespace-nowrap overflow-hidden text-ellipsis select-none">
+          <p className="p-2 h-8 max-h-[32px] text-left text-sm text-black w-full max-w-[130px] flex justify-start items-center whitespace-nowrap overflow-hidden text-ellipsis select-none">
             {option.label}
           </p>
         )}

@@ -1,4 +1,5 @@
 import Globe from "@/components/Globe";
+import { useProblemValue } from "@/context/contextProblem";
 import { TAG_EMAIL } from "@/libs/constants";
 import { validateEmail } from "@/libs/utils";
 import Head from "next/head";
@@ -8,6 +9,7 @@ import { toast } from "react-toastify";
 
 export default function Home() {
   const router = useRouter();
+  const { updateProblem, updateAttributes } = useProblemValue();
   const [email, setEmail] = useState<string>("");
 
   const onChangeEmail = (e: any) => {
@@ -42,6 +44,9 @@ export default function Home() {
       if (email && validateEmail(email)) {
         setEmail(email);
       }
+
+      updateProblem("");
+      updateAttributes([]);
     }
   }, []);
 
@@ -55,10 +60,10 @@ export default function Home() {
 
       <main className="relative left-0 top-0 w-screen h-screen flex flex-col justify-center items-center md:items-start p-5 md:p-10">
         <div className="w-full md:w-2/3 xl:w-1/2 h-full flex flex-col justify-center items-center z-10">
-          <h1 className="text-white text-3xl md:text-6xl text-center font-semibold mb-10">
+          <h1 className="text-black text-3xl md:text-6xl text-center font-semibold mb-10">
             Knowledge As a Service
           </h1>
-          <p className="text-slate-300 text-xl md:text-2xl text-center font-semibold mb-10">
+          <p className="text-gray-500 text-xl md:text-2xl text-center font-semibold mb-10">
             Most of the world will make decisions by either guessing or using
             their gut. They will be either lucky or wrong. Artificial
             Intelligence has a strong grasp on probability, yet still

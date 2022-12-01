@@ -106,7 +106,7 @@ export default function Signin() {
 
       <main className="relative left-0 top-0 w-screen h-screen flex flex-col justify-center items-center md:items-start p-5 md:p-10">
         <div className="w-full h-full flex flex-col justify-center items-center z-10">
-          <h1 className="text-white text-3xl md:text-6xl text-center font-semibold mb-10">
+          <h1 className="text-black text-3xl md:text-6xl text-center font-semibold mb-10">
             Sign In
           </h1>
           <div className="w-full flex flex-col justify-start items-center space-y-3">
@@ -161,7 +161,7 @@ export default function Signin() {
                 </svg>
               </button>
             </div>
-            <p className="text-white text-base flex flex-row">
+            <p className="text-black text-base flex flex-row">
               Forgot password?&nbsp;&nbsp;
               <span
                 className="text-green-600 hover:text-green-800 cursor-pointer"
@@ -170,7 +170,7 @@ export default function Signin() {
                 Reset password
               </span>
             </p>
-            <p className="text-white text-base flex flex-row">
+            <p className="text-black text-base flex flex-row">
               Don&apos;t have account?&nbsp;&nbsp;
               <Link href="/signup">
                 <span className="text-green-600 hover:text-green-800 cursor-pointer">

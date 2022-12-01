@@ -170,8 +170,10 @@ export default function AttributePage() {
 
       <main className="relative left-0 top-0 w-screen h-screen flex flex-col justify-start items-center md:items-start p-5 md:p-10">
         <div className="w-full h-5/6 flex flex-col justify-start md:justify-center items-center space-y-3 overflow-hidden z-10">
-          <h1 className="w-full md:w-[768px] text-white text-xl md:text-2xl text-center">
-            For Attribute <b>{attribute?.label}</b> Select three options to test
+          <h1 className="w-full md:w-[768px] text-gray-500 text-xl md:text-2xl text-center">
+            For Attribute&nbsp;&nbsp;
+            <b className="text-black">{attribute?.label}</b>&nbsp;&nbsp;Select
+            three options to test
           </h1>
           <div className="w-full md:w-[768px] flex-grow md:flex-grow-0 overflow-hidden overflow-y-auto">
             <div className="w-full h-auto md:h-[400px] md:min-h-[400px] md:max-h-[400px] grid grid-cols-2 md:grid-cols-5 gap-2">
