@@ -108,6 +108,13 @@ export default function Problem() {
 
     attributesArr[attributeObj.id] = attributeObj;
     setAttributes(attributesArr);
+
+    const newSelectedAttributes = selectedAttributes.map(
+      (selectedAttribute) => {
+        return attributesArr[selectedAttribute.id];
+      }
+    );
+    setSelectedAttributes(newSelectedAttributes);
   };
 
   useEffect(() => {
