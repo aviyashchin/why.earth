@@ -31,7 +31,7 @@ export default function Signup() {
 
   useEffect(() => {
     if (isSignedIn) {
-      router.push("/work");
+      router.push("/problem");
     }
   }, [isSignedIn]);
 

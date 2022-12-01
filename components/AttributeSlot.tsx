@@ -1,8 +1,9 @@
-import { Attribute } from "pages/work";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { useDoubleTap } from "use-double-tap";
 import useDetectDevice from "@/hooks/useDetectDevice";
+import { Attribute } from "@/libs/constants";
+import useOpenAI from "@/hooks/useOpenAI";
 
 type Props = {
   attribute: Attribute;
@@ -15,6 +16,7 @@ const AttributeSlot = ({ attribute, selectedIds, onClick, onSave }: Props) => {
   const ref = useRef(null);
   const refInput = useRef(null);
   const { isMobile } = useDetectDevice();
+  const { generateImage } = useOpenAI();
   const [image, setImage] = useState<string>("");
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [isMouseOver, setIsMouseOver] = useState<boolean>(false);
@@ -60,9 +62,15 @@ const AttributeSlot = ({ attribute, selectedIds, onClick, onSave }: Props) => {
 
   useEffect(() => {
     setImage("");
-    attribute.image.then((image) => {
-      setImage(image);
-    });
+    try {
+      attribute.image.then((image) => {
+        setImage(image);
+      });
+    } catch (e) {
+      generateImage(attribute.label).then((image) => {
+        setImage(image);
+      });
+    }
   }, [attribute.image]);
 
   return (
