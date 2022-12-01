@@ -17,6 +17,7 @@ export default function AttributePage() {
   const { attributes, updateAttributes } = useProblemValue();
   const { generateImage } = useOpenAI();
   const [attribute, setAttribute] = useState<Attribute | null>(null);
+  const [options, setOptions] = useState<Array<Option>>([]);
   const [option, setOption] = useState<Option | null>(null);
   const [selectedOptions, setSelectedOptions] = useState<Array<Option>>([]);
 
@@ -24,6 +25,15 @@ export default function AttributePage() {
     if (e) {
       e.preventDefault();
     }
+
+    if (!selectedOptions || selectedOptions.length == 0) {
+      toast.error("Please select at least one option.");
+      return;
+    }
+
+    const attributesArr = attributes.slice();
+    attributesArr[currentAttributeIndex].options = selectedOptions.slice();
+    updateAttributes(attributesArr);
 
     if (currentAttributeIndex == 0) {
       router.push("/problem");
@@ -38,8 +48,8 @@ export default function AttributePage() {
       e.preventDefault();
     }
 
-    if (!attribute || attribute.options.length == 0) {
-      toast.error("Please add/select options.");
+    if (!selectedOptions || selectedOptions.length == 0) {
+      toast.error("Please select at least one option.");
       return;
     }
 
@@ -66,13 +76,13 @@ export default function AttributePage() {
       return option.id == id;
     });
     if (index == -1) {
-      newSelectedOptions.push(attribute.options[id]);
+      newSelectedOptions.push(options[id]);
     } else {
       newSelectedOptions = newSelectedOptions.splice(index, 1);
     }
     setSelectedOptions(newSelectedOptions);
 
-    setOption(attribute.options[id]);
+    setOption(options[id]);
   };
 
   const onAddOption = (e: any = null) => {
@@ -85,7 +95,7 @@ export default function AttributePage() {
     setOption(null);
 
     const attributeObj = Object.assign({}, attribute);
-    const optionsArr = attributeObj.options.slice();
+    const optionsArr = options.slice();
     optionsArr.push({
       id: optionsArr.length,
       label: "New Option",
@@ -93,59 +103,58 @@ export default function AttributePage() {
       value: null,
       description: "",
     });
-    attributeObj.options = optionsArr;
+    attributeObj.options = optionsArr.slice();
     setAttribute(attributeObj);
-
-    const attributesArr = attributes.slice();
-    const index = attributesArr.findIndex(
-      (attribute) => attribute.id == attributeObj.id
-    );
-    if (index != -1) {
-      attributesArr[index] = attributeObj;
-      updateAttributes(attributesArr);
-    }
+    setOptions(optionsArr);
   };
 
   const onSaveOption = (label: string, description: string) => {
     if (!attribute || !option) return;
 
     const attributeObj = Object.assign({}, attribute);
+    const optionsArr = options.slice();
     const optionObj = Object.assign({}, option);
     optionObj.label = label;
     optionObj.image = generateImage(label);
     optionObj.description = description;
     setOption(optionObj);
 
-    attributeObj.options[optionObj.id] = optionObj;
+    optionsArr[optionObj.id] = optionObj;
+    attributeObj.options = optionsArr.slice();
     setAttribute(attributeObj);
+    setOptions(optionsArr);
 
-    const attributesArr = attributes.slice();
-    const index = attributesArr.findIndex(
-      (attribute) => attribute.id == attributeObj.id
-    );
-    if (index != -1) {
-      attributesArr[index] = attributeObj;
-      updateAttributes(attributesArr);
-    }
+    const newSelectedOptions = selectedOptions.map((selectedOption) => {
+      return optionsArr[selectedOption.id];
+    });
+    setSelectedOptions(newSelectedOptions);
   };
 
   useEffect(() => {
-    if (!isSignedIn) {
-      router.push("/signin");
-    }
-  }, [isSignedIn]);
-
-  useEffect(() => {
-    if (id) {
-      try {
-        const index = parseInt(id.toString());
-        setAttribute(attributes[index]);
-        setCurrentAttributeIndex(index);
-      } catch (e) {
-        router.push("/");
+    if (isSignedIn) {
+      if (id) {
+        try {
+          const index = parseInt(id.toString());
+          setAttribute({
+            ...attributes[index],
+            options: attributes[index].options.map((option, index) => {
+              return { ...option, id: index };
+            }),
+          });
+          setOptions(
+            attributes[index].options.map((option, index) => {
+              return { ...option, id: index };
+            })
+          );
+          setCurrentAttributeIndex(index);
+          setOption(null);
+          setSelectedOptions([]);
+        } catch (e) {
+          router.push("/");
+        }
       }
     }
-  }, [id]);
+  }, [isSignedIn, id]);
 
   return (
     <div className="relative">
@@ -163,7 +172,7 @@ export default function AttributePage() {
           <div className="w-full md:w-[768px] flex-grow md:flex-grow-0 overflow-hidden overflow-y-auto">
             <div className="w-full h-auto md:h-[500px] md:min-h-[500px] md:max-h-[500px] grid grid-cols-2 md:grid-cols-5 gap-2">
               <AddSlot onClick={onAddOption} />
-              {attribute?.options.map((opt, index) => {
+              {options.map((opt, index) => {
                 return (
                   <OptionSlot
                     key={index}

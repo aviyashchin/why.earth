@@ -17,7 +17,12 @@ export enum PAGE_INDEX {
 export default function Problem() {
   const router = useRouter();
   const { isLoading, isSignedIn } = useAuthValues();
-  const { problem, updateProblem, updateAttributes } = useProblemValue();
+  const {
+    problem,
+    updateProblem,
+    attributes: storedAttributes,
+    updateAttributes,
+  } = useProblemValue();
   const { generateImage } = useOpenAI();
 
   const [step, setStep] = useState<PAGE_INDEX>(PAGE_INDEX.ENTER_PROBLEM);
@@ -118,7 +123,15 @@ export default function Problem() {
   };
 
   useEffect(() => {
-    if (!isSignedIn) {
+    if (isSignedIn) {
+      setAttribute(null);
+      setAttributes(
+        storedAttributes.map((attribute, index) => {
+          return { ...attribute, id: index };
+        })
+      );
+      setSelectedAttributes([]);
+    } else {
       router.push("/signin");
     }
   }, [isSignedIn]);
@@ -176,7 +189,7 @@ export default function Problem() {
                       <AttributeSlot
                         key={index}
                         attribute={attr}
-                        selectedIds={selectedAttributes?.map(
+                        selectedIds={selectedAttributes.map(
                           (attribute) => attribute.id
                         )}
                         onClick={onSelectAttribute}
