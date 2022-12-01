@@ -148,7 +148,11 @@ export default function AttributePage() {
           );
           setCurrentAttributeIndex(index);
           setOption(null);
-          setSelectedOptions([]);
+          setSelectedOptions(
+            attributes[index].options.map((option, index) => {
+              return { ...option, id: index };
+            })
+          );
         } catch (e) {
           router.push("/");
         }
@@ -170,7 +174,7 @@ export default function AttributePage() {
             For Attribute <b>{attribute?.label}</b> Select three options to test
           </h1>
           <div className="w-full md:w-[768px] flex-grow md:flex-grow-0 overflow-hidden overflow-y-auto">
-            <div className="w-full h-auto md:h-[500px] md:min-h-[500px] md:max-h-[500px] grid grid-cols-2 md:grid-cols-5 gap-2">
+            <div className="w-full h-auto md:h-[400px] md:min-h-[400px] md:max-h-[400px] grid grid-cols-2 md:grid-cols-5 gap-2">
               <AddSlot onClick={onAddOption} />
               {options.map((opt, index) => {
                 return (

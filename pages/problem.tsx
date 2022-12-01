@@ -130,7 +130,11 @@ export default function Problem() {
           return { ...attribute, id: index };
         })
       );
-      setSelectedAttributes([]);
+      setSelectedAttributes(
+        storedAttributes.map((attribute, index) => {
+          return { ...attribute, id: index };
+        })
+      );
     } else {
       router.push("/signin");
     }
@@ -182,7 +186,7 @@ export default function Problem() {
                 {problem}
               </h1>
               <div className="w-full md:w-[768px] flex-grow md:flex-grow-0 overflow-y-auto">
-                <div className="w-full h-auto md:h-[500px] md:min-h-[500px] md:max-h-[500px] grid grid-cols-2 md:grid-cols-5 gap-2">
+                <div className="w-full h-auto md:h-[400px] md:min-h-[400px] md:max-h-[400px] grid grid-cols-2 md:grid-cols-5 gap-2">
                   <AddSlot onClick={onAddAttribute} />
                   {attributes?.map((attr, index) => {
                     return (
