@@ -87,7 +87,7 @@ const AttributeSlot = ({
   return (
     <div ref={ref} className="w-full flex justify-center items-center">
       <div
-        className={`w-full h-32 border flex flex-row space-x-2 justify-start items-start overflow-hidden rounded-md select-none relative ${
+        className={`w-60 h-60 border-2 flex flex-row justify-center items-center overflow-hidden rounded-md select-none relative ${
           selectedIds.includes(attribute.id)
             ? "border-green-500"
             : "border-gray-300"
@@ -99,27 +99,19 @@ const AttributeSlot = ({
       >
         {image ? (
           <img
-            className={`w-32 min-w-[128px] h-32 object-cover overflow-hidden border-r ${
-              selectedIds.includes(attribute.id)
-                ? "border-green-500"
-                : "border-gray-300"
-            }`}
+            className={`absolute left-0 top-0 w-full h-full object-cover overflow-hidden z-0`}
             src={image}
           />
         ) : (
           <div
-            className={`w-32 min-w-[128px] h-32 flex justify-center items-center border-r ${
-              selectedIds.includes(attribute.id)
-                ? "border-green-500"
-                : "border-gray-300"
-            }`}
+            className={`absolute left-0 top-0 w-full h-full flex justify-start items-start z-0`}
           >
-            <div className="animate-spin rounded-full w-10 h-10 border-t-2 border-gray-300"></div>
+            <div className="animate-spin rounded-full w-4 h-4 m-2 border-t-2 border-gray-500"></div>
           </div>
         )}
         {!isEditing && !isMobile && isMouseOver && (
           <div
-            className="absolute -right-10 -top-10 w-20 h-20 bg-[#00000088] backdrop-blur-sm rounded-full overflow-hidden text-white cursor-pointer hover:bg-green-500 transition-all duration-300"
+            className="absolute -right-10 -top-10 w-20 h-20 bg-[#00000088] backdrop-blur-sm rounded-full overflow-hidden text-white cursor-pointer hover:bg-green-500 transition-all duration-300 z-20"
             onClick={() => setIsEditing(true)}
           >
             <svg
@@ -138,7 +130,7 @@ const AttributeSlot = ({
         {isEditing ? (
           <textarea
             ref={refInput}
-            className="p-2 flex-grow h-32 min-h-[128px] text-left text-base bg-slate-50 text-black flex justify-start items-center overflow-y-auto outline-none focus:outline-none tracking-tighter"
+            className="p-2 w-full h-full min-h-[240px] max-h-[240px] text-left text-base bg-slate-50 text-black flex justify-start items-center overflow-y-auto outline-none focus:outline-none tracking-tighter custom-scrollbar z-10"
             value={label}
             minLength={1}
             maxLength={180}
@@ -151,9 +143,23 @@ const AttributeSlot = ({
             }}
           />
         ) : (
-          <p className="p-2 flex-grow h-32 text-left text-base text-black flex justify-start items-center overflow-y-auto select-none tracking-tighter">
-            {attribute.label}
-          </p>
+          <div
+            className={`p-3 max-w-[200px] max-h-[200px] overflow-y-auto select-none rounded-md custom-scrollbar z-10 ${
+              selectedIds.includes(attribute.id)
+                ? "bg-[#22c55eee]"
+                : "bg-[#000000cc]"
+            }`}
+          >
+            <p
+              className={`text-left text-base tracking-tighter rounded-md ${
+                selectedIds.includes(attribute.id)
+                  ? "text-white"
+                  : "text-green-400"
+              }`}
+            >
+              {attribute.label}
+            </p>
+          </div>
         )}
       </div>
     </div>

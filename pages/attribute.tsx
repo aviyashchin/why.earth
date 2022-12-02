@@ -145,24 +145,26 @@ export default function Problem() {
               {problem}
             </h1>
           </div>
+          <div className="w-full md:w-[768px] pr-1 flex-grow overflow-y-auto space-y-1 custom-scrollbar">
+            <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-2">
+              {attributes?.map((attr, index) => {
+                return (
+                  <AttributeSlot
+                    key={index}
+                    index={index}
+                    attribute={attr}
+                    selectedIds={selectedAttributes.map(
+                      (attribute) => attribute.id
+                    )}
+                    onClick={onSelectAttribute}
+                    onSave={onSaveAttribute}
+                  />
+                );
+              })}
+            </div>
+          </div>
           <div className="w-full md:w-[768px] pr-1">
             <AddSlot onClick={onAddAttribute} />
-          </div>
-          <div className="w-full md:w-[768px] pr-1 flex-grow overflow-y-auto space-y-1 custom-scrollbar">
-            {attributes?.map((attr, index) => {
-              return (
-                <AttributeSlot
-                  key={index}
-                  index={index}
-                  attribute={attr}
-                  selectedIds={selectedAttributes.map(
-                    (attribute) => attribute.id
-                  )}
-                  onClick={onSelectAttribute}
-                  onSave={onSaveAttribute}
-                />
-              );
-            })}
           </div>
           <div className="w-full md:w-[768px] flex flex-row justify-between items-center space-x-2">
             <button

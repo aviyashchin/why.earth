@@ -170,22 +170,24 @@ export default function AttributePage() {
             <b className="text-black">{attribute?.label}</b>&nbsp;&nbsp;Select
             three options to test
           </h1>
+          <div className="w-full md:w-[768px] pr-1 flex-grow overflow-y-auto space-y-1 custom-scrollbar">
+            <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-2">
+              {options.map((opt, index) => {
+                return (
+                  <OptionSlot
+                    key={index}
+                    index={index}
+                    option={opt}
+                    selectedIds={selectedOptions.map((option) => option.id)}
+                    onClick={onSelectOption}
+                    onSave={onSaveOption}
+                  />
+                );
+              })}
+            </div>
+          </div>
           <div className="w-full md:w-[768px] pr-1">
             <AddSlot onClick={onAddOption} />
-          </div>
-          <div className="w-full md:w-[768px] pr-1 flex-grow overflow-y-auto space-y-1 custom-scrollbar">
-            {options.map((opt, index) => {
-              return (
-                <OptionSlot
-                  key={index}
-                  index={index}
-                  option={opt}
-                  selectedIds={selectedOptions.map((option) => option.id)}
-                  onClick={onSelectOption}
-                  onSave={onSaveOption}
-                />
-              );
-            })}
           </div>
           <div className="w-full md:w-[768px] flex flex-row justify-between items-center space-x-2">
             <button
