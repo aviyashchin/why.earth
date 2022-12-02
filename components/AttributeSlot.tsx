@@ -87,7 +87,7 @@ const AttributeSlot = ({
   return (
     <div ref={ref} className="w-full flex justify-center items-center">
       <div
-        className={`w-60 h-60 border-2 flex flex-row justify-center items-center overflow-hidden rounded-md select-none relative transition-all duration-300 ${
+        className={`w-40 h-40 md:w-60 md:h-60 border-2 flex flex-row justify-center items-center overflow-hidden rounded-md select-none relative transition-all duration-300 ${
           selectedIds.includes(attribute.id)
             ? "border-green-600"
             : "border-gray-300"
@@ -130,7 +130,7 @@ const AttributeSlot = ({
         {isEditing ? (
           <textarea
             ref={refInput}
-            className="p-2 w-full h-full min-h-[240px] max-h-[240px] text-left text-base bg-slate-50 text-black flex justify-start items-center overflow-y-auto outline-none focus:outline-none tracking-tighter custom-scrollbar z-10"
+            className="p-2 w-full h-full min-h-[160px] max-h-[160px] md:min-h-[240px] md:max-h-[240px] text-left text-sm md:text-base bg-slate-50 text-black flex justify-start items-center overflow-y-auto outline-none focus:outline-none tracking-tighter custom-scrollbar z-10"
             value={label}
             minLength={1}
             maxLength={180}
@@ -144,14 +144,14 @@ const AttributeSlot = ({
           />
         ) : (
           <div
-            className={`p-3 max-w-[200px] max-h-[200px] backdrop-blur-sm overflow-y-auto select-none rounded-md custom-scrollbar z-10 transition-all duration-300 ${
+            className={`p-3 max-w-[130px] max-h-[130px] md:max-w-[200px] md:max-h-[200px] backdrop-blur-sm overflow-y-auto select-none rounded-md custom-scrollbar z-10 transition-all duration-300 ${
               selectedIds.includes(attribute.id)
                 ? "bg-green-600"
                 : "bg-[#00000088]"
             }`}
           >
             <p
-              className={`text-left text-base tracking-tighter text-white rounded-md`}
+              className={`text-left text-sm md:text-base tracking-tighter text-white rounded-md`}
             >
               {attribute.label}
             </p>

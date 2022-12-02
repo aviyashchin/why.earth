@@ -146,7 +146,7 @@ export default function Problem() {
             </h1>
           </div>
           <div className="w-full md:w-[768px] pr-1 flex-grow overflow-y-auto space-y-1 custom-scrollbar">
-            <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-2">
+            <div className="w-full grid grid-cols-2 md:grid-cols-3 gap-2">
               {attributes?.map((attr, index) => {
                 return (
                   <AttributeSlot
