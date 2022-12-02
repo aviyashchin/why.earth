@@ -81,9 +81,9 @@ const OptionSlot = ({ index, option, selectedIds, onClick, onSave }: Props) => {
   return (
     <div ref={ref} className="w-full flex justify-center items-center">
       <div
-        className={`w-60 h-60 border-2 flex flex-row justify-center items-center overflow-hidden rounded-md select-none relative ${
+        className={`w-60 h-60 border-2 flex flex-row justify-center items-center overflow-hidden rounded-md select-none relative transition-all duration-300 ${
           selectedIds.includes(option.id)
-            ? "border-green-500"
+            ? "border-green-600"
             : "border-gray-300"
         } cursor-pointer`}
         onMouseEnter={() => setIsMouseOver(true)}
@@ -105,7 +105,7 @@ const OptionSlot = ({ index, option, selectedIds, onClick, onSave }: Props) => {
         )}
         {!isEditing && !isMobile && isMouseOver && (
           <div
-            className="absolute -right-10 -top-10 w-20 h-20 bg-[#00000088] backdrop-blur-sm rounded-full overflow-hidden text-white cursor-pointer hover:bg-green-500 transition-all duration-300 z-20"
+            className="absolute -right-10 -top-10 w-20 h-20 bg-[#00000088] backdrop-blur-sm rounded-full overflow-hidden text-white cursor-pointer hover:bg-green-600 transition-all duration-300 z-20"
             onClick={() => setIsEditing(true)}
           >
             <svg
@@ -138,18 +138,14 @@ const OptionSlot = ({ index, option, selectedIds, onClick, onSave }: Props) => {
           />
         ) : (
           <div
-            className={`p-3 max-w-[200px] max-h-[200px] overflow-y-auto select-none rounded-md custom-scrollbar z-10 ${
+            className={`p-3 max-w-[200px] max-h-[200px] backdrop-blur-sm overflow-y-auto select-none rounded-md custom-scrollbar z-10 transition-all duration-300 ${
               selectedIds.includes(option.id)
-                ? "bg-[#22c55eee]"
-                : "bg-[#000000cc]"
+                ? "bg-green-600"
+                : "bg-[#00000088]"
             }`}
           >
             <p
-              className={`text-left text-base tracking-tighter rounded-md ${
-                selectedIds.includes(option.id)
-                  ? "text-white"
-                  : "text-green-400"
-              }`}
+              className={`text-left text-base tracking-tighter text-white rounded-md`}
             >
               {option.label}
             </p>
