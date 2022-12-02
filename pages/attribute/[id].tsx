@@ -26,11 +26,6 @@ export default function AttributePage() {
       e.preventDefault();
     }
 
-    if (!selectedOptions || selectedOptions.length == 0) {
-      toast.error("Please select at least one option.");
-      return;
-    }
-
     const attributesArr = attributes.slice();
     attributesArr[currentAttributeIndex].options = selectedOptions.slice();
     updateAttributes(attributesArr);

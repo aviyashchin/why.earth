@@ -38,8 +38,8 @@ const AttributeSlot = ({
       toast.error("Please enter valid label.");
       return;
     }
-    if (label.length > 140) {
-      toast.error("Label max length is 140.");
+    if (label.length > 180) {
+      toast.error("Label max length is 180.");
       return;
     }
 
@@ -141,7 +141,7 @@ const AttributeSlot = ({
             className="p-2 flex-grow h-32 min-h-[128px] text-left text-sm bg-slate-50 text-black flex justify-start items-center overflow-y-auto outline-none focus:outline-none"
             value={label}
             minLength={1}
-            maxLength={140}
+            maxLength={180}
             onChange={(e) => setLabel(e.target.value)}
             onKeyDown={(e) => {
               if (e.key == "Enter") {

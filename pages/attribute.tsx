@@ -39,7 +39,7 @@ export default function Problem() {
     }
 
     if (!selectedAttributes || selectedAttributes.length == 0) {
-      toast.error("Please select one Attribute.");
+      toast.error("Please select at least one Attribute.");
       return;
     }
 
