@@ -1441,13 +1441,16 @@
               },
             },
             {
+              //////////////////////////////////////////////////////////////////////////
+              //////////////////////////  Change light effect //////////////////////////
+              //////////////////////////////////////////////////////////////////////////
               key: "addLighting",
               value: function () {
-                var t = new p.AmbientLight(10086140, 1);
+                var t = new p.AmbientLight(14474460, 1);
                 this.scene.add(t);
-                var e = new p.PointLight(12775677, 2, 0, 2);
+                var e = new p.PointLight(14474460, 2, 0, 2);
                 e.position.set(-1e3, -1100, -3300), this.scene.add(e);
-                var n = new p.PointLight(10593711, 0.8, 0, 20);
+                var n = new p.PointLight(14474460, 0.8, 0, 20);
                 n.position.set(-3e3, 3e3, 3300), this.scene.add(n);
               },
             },
@@ -1489,7 +1492,10 @@
                 this.globeFillMaterial = new p.MeshLambertMaterial({
                   transparent: !0,
                   opacity: 1,
-                  color: 1056824,
+                  //////////////////////////////////////////////////////////////////////////
+                  /////////////////////////  Change surface color //////////////////////////
+                  //////////////////////////////////////////////////////////////////////////
+                  color: 14474460,
                 });
                 var t = this.isLayers
                   ? this.globeRadius - 0.5 * this.globeRadius
