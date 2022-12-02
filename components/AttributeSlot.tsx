@@ -64,6 +64,10 @@ const AttributeSlot = ({
     if (isEditing) {
       // @ts-ignore
       refInput.current.focus();
+    } else {
+      if (label != attribute.label) {
+        onFinish();
+      }
     }
   }, [refInput, isEditing]);
 
@@ -87,7 +91,7 @@ const AttributeSlot = ({
           selectedIds.includes(attribute.id)
             ? "border-green-500"
             : "border-gray-300"
-        } ${index % 2 == 0 ? "" : "flex-row-reverse"} cursor-pointer`}
+        } cursor-pointer`}
         onMouseEnter={() => setIsMouseOver(true)}
         onMouseLeave={() => setIsMouseOver(false)}
         onMouseDown={() => onClick(attribute.id)}
@@ -95,9 +99,7 @@ const AttributeSlot = ({
       >
         {image ? (
           <img
-            className={`w-32 min-w-[128px] h-32 object-cover overflow-hidden ${
-              index % 2 == 0 ? "border-r" : "border-l"
-            } ${
+            className={`w-32 min-w-[128px] h-32 object-cover overflow-hidden border-r ${
               selectedIds.includes(attribute.id)
                 ? "border-green-500"
                 : "border-gray-300"
@@ -106,9 +108,7 @@ const AttributeSlot = ({
           />
         ) : (
           <div
-            className={`w-32 min-w-[128px] h-32 flex justify-center items-center ${
-              index % 2 == 0 ? "border-r" : "border-l"
-            } ${
+            className={`w-32 min-w-[128px] h-32 flex justify-center items-center border-r ${
               selectedIds.includes(attribute.id)
                 ? "border-green-500"
                 : "border-gray-300"
@@ -138,7 +138,7 @@ const AttributeSlot = ({
         {isEditing ? (
           <textarea
             ref={refInput}
-            className="p-2 flex-grow h-32 min-h-[128px] text-left text-sm bg-slate-50 text-black flex justify-start items-center overflow-y-auto outline-none focus:outline-none"
+            className="p-2 flex-grow h-32 min-h-[128px] text-left text-base bg-slate-50 text-black flex justify-start items-center overflow-y-auto outline-none focus:outline-none tracking-tighter"
             value={label}
             minLength={1}
             maxLength={180}
@@ -151,7 +151,7 @@ const AttributeSlot = ({
             }}
           />
         ) : (
-          <p className="p-2 flex-grow h-32 text-left text-sm text-black flex justify-start items-center overflow-y-auto select-none">
+          <p className="p-2 flex-grow h-32 text-left text-base text-black flex justify-start items-center overflow-y-auto select-none tracking-tighter">
             {attribute.label}
           </p>
         )}

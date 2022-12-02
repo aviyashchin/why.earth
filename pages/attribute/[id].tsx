@@ -27,7 +27,7 @@ export default function AttributePage() {
     }
 
     const attributesArr = attributes.slice();
-    attributesArr[currentAttributeIndex].options = selectedOptions.slice();
+    attributesArr[currentAttributeIndex].options = options.slice();
     updateAttributes(attributesArr);
 
     if (currentAttributeIndex == 0) {

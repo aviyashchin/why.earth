@@ -58,6 +58,10 @@ const OptionSlot = ({ index, option, selectedIds, onClick, onSave }: Props) => {
     if (isEditing) {
       // @ts-ignore
       refInput.current.focus();
+    } else {
+      if (label != option.label) {
+        onFinish();
+      }
     }
   }, [refInput, isEditing]);
 
@@ -81,7 +85,7 @@ const OptionSlot = ({ index, option, selectedIds, onClick, onSave }: Props) => {
           selectedIds.includes(option.id)
             ? "border-green-500"
             : "border-gray-300"
-        } ${index % 2 == 0 ? "" : "flex-row-reverse"} cursor-pointer`}
+        } cursor-pointer`}
         onMouseEnter={() => setIsMouseOver(true)}
         onMouseLeave={() => setIsMouseOver(false)}
         onMouseDown={() => onClick(option.id)}
@@ -89,9 +93,7 @@ const OptionSlot = ({ index, option, selectedIds, onClick, onSave }: Props) => {
       >
         {image ? (
           <img
-            className={`w-32 min-w-[128px] h-32 object-cover overflow-hidden ${
-              index % 2 == 0 ? "border-r" : "border-l"
-            } ${
+            className={`w-32 min-w-[128px] h-32 object-cover overflow-hidden border-r ${
               selectedIds.includes(option.id)
                 ? "border-green-500"
                 : "border-gray-300"
@@ -100,9 +102,7 @@ const OptionSlot = ({ index, option, selectedIds, onClick, onSave }: Props) => {
           />
         ) : (
           <div
-            className={`w-32 min-w-[128px] h-32 flex justify-center items-center ${
-              index % 2 == 0 ? "border-r" : "border-l"
-            } ${
+            className={`w-32 min-w-[128px] h-32 flex justify-center items-center border-r ${
               selectedIds.includes(option.id)
                 ? "border-green-500"
                 : "border-gray-300"
@@ -132,7 +132,7 @@ const OptionSlot = ({ index, option, selectedIds, onClick, onSave }: Props) => {
         {isEditing ? (
           <textarea
             ref={refInput}
-            className="p-2 flex-grow h-32 min-h-[128px] text-left text-sm bg-slate-50 text-black flex justify-start items-center overflow-y-auto outline-none focus:outline-none"
+            className="p-2 flex-grow h-32 min-h-[128px] text-left text-base bg-slate-50 text-black flex justify-start items-center overflow-y-auto outline-none focus:outline-none"
             value={label}
             minLength={1}
             maxLength={180}
@@ -145,7 +145,7 @@ const OptionSlot = ({ index, option, selectedIds, onClick, onSave }: Props) => {
             }}
           />
         ) : (
-          <p className="p-2 flex-grow h-32 text-left text-sm text-black flex justify-start items-center overflow-y-auto select-none">
+          <p className="p-2 flex-grow h-32 text-left text-base text-black flex justify-start items-center overflow-y-auto select-none">
             {option.label}
           </p>
         )}

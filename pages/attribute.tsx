@@ -30,6 +30,8 @@ export default function Problem() {
       e.preventDefault();
     }
 
+    updateAttributes(attributes);
+
     router.push("/problem");
   };
 
