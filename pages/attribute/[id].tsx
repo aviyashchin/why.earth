@@ -36,7 +36,7 @@ export default function AttributePage() {
     updateAttributes(attributesArr);
 
     if (currentAttributeIndex == 0) {
-      router.push("/problem");
+      router.push("/attribute");
       return;
     }
 
