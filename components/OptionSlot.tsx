@@ -6,13 +6,14 @@ import { Option } from "@/libs/constants";
 import useOpenAI from "@/hooks/useOpenAI";
 
 type Props = {
+  index: number;
   option: Option;
   selectedIds: Array<number>;
   onClick: any;
   onSave: any;
 };
 
-const OptionSlot = ({ option, selectedIds, onClick, onSave }: Props) => {
+const OptionSlot = ({ index, option, selectedIds, onClick, onSave }: Props) => {
   const ref = useRef(null);
   const refInput = useRef(null);
   const { isMobile } = useDetectDevice();
@@ -76,11 +77,11 @@ const OptionSlot = ({ option, selectedIds, onClick, onSave }: Props) => {
   return (
     <div ref={ref} className="w-full flex justify-center items-center">
       <div
-        className={`w-36 h-36 border flex flex-col justify-start items-start overflow-hidden rounded-md select-none relative ${
+        className={`w-full h-32 border flex flex-row space-x-2 justify-start items-start overflow-hidden rounded-md select-none relative ${
           selectedIds.includes(option.id)
             ? "border-green-500"
-            : "border-gray-500"
-        } cursor-pointer`}
+            : "border-gray-300"
+        } ${index % 2 == 0 ? "" : "flex-row-reverse"} cursor-pointer`}
         onMouseEnter={() => setIsMouseOver(true)}
         onMouseLeave={() => setIsMouseOver(false)}
         onMouseDown={() => onClick(option.id)}
@@ -88,12 +89,26 @@ const OptionSlot = ({ option, selectedIds, onClick, onSave }: Props) => {
       >
         {image ? (
           <img
-            className="w-full h-32 object-cover overflow-hidden"
+            className={`w-32 min-w-[128px] h-32 object-cover overflow-hidden ${
+              index % 2 == 0 ? "border-r" : "border-l"
+            } ${
+              selectedIds.includes(option.id)
+                ? "border-green-500"
+                : "border-gray-300"
+            }`}
             src={image}
           />
         ) : (
-          <div className="w-full h-32 flex justify-center items-center">
-            <div className="animate-spin rounded-full w-10 h-10 border-t-2 border-gray-500"></div>
+          <div
+            className={`w-32 min-w-[128px] h-32 flex justify-center items-center ${
+              index % 2 == 0 ? "border-r" : "border-l"
+            } ${
+              selectedIds.includes(option.id)
+                ? "border-green-500"
+                : "border-gray-300"
+            }`}
+          >
+            <div className="animate-spin rounded-full w-10 h-10 border-t-2 border-gray-300"></div>
           </div>
         )}
         {!isEditing && !isMobile && isMouseOver && (
@@ -117,7 +132,7 @@ const OptionSlot = ({ option, selectedIds, onClick, onSave }: Props) => {
         {isEditing ? (
           <textarea
             ref={refInput}
-            className="p-2 h-8 min-h-[32px] max-h-[64px] text-left text-sm bg-slate-400 text-black w-full overflow-hidden text-ellipsis outline-none focus:outline-none"
+            className="p-2 flex-grow h-32 min-h-[128px] text-left text-sm bg-slate-50 text-black flex justify-start items-center overflow-y-auto outline-none focus:outline-none"
             value={label}
             minLength={1}
             maxLength={140}
@@ -130,7 +145,7 @@ const OptionSlot = ({ option, selectedIds, onClick, onSave }: Props) => {
             }}
           />
         ) : (
-          <p className="p-2 h-8 max-h-[32px] text-left text-sm text-black w-full max-w-[130px] flex justify-start items-center whitespace-nowrap overflow-hidden text-ellipsis select-none">
+          <p className="p-2 flex-grow h-32 text-left text-sm text-black flex justify-start items-center overflow-y-auto select-none">
             {option.label}
           </p>
         )}

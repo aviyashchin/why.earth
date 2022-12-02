@@ -135,29 +135,32 @@ export default function Problem() {
 
       <main className="relative left-0 top-0 w-screen h-screen flex flex-col justify-start items-center md:items-start p-5 md:p-10">
         <div className="w-full h-5/6 flex flex-col justify-start md:justify-center items-center space-y-3 overflow-hidden z-10">
-          <h1 className="w-full md:w-[768px] text-gray-500 text-xl md:text-2xl text-center">
-            Select some Attributes Important to
-          </h1>
-          <h1 className="w-full md:w-[768px] text-black text-xl md:text-2xl font-bold text-center mb-10 overflow-hidden text-ellipsis">
-            {problem}
-          </h1>
-          <div className="w-full md:w-[768px] flex-grow md:flex-grow-0 overflow-y-auto">
-            <div className="w-full h-auto md:h-[400px] md:min-h-[400px] md:max-h-[400px] grid grid-cols-2 md:grid-cols-5 gap-2">
-              <AddSlot onClick={onAddAttribute} />
-              {attributes?.map((attr, index) => {
-                return (
-                  <AttributeSlot
-                    key={index}
-                    attribute={attr}
-                    selectedIds={selectedAttributes.map(
-                      (attribute) => attribute.id
-                    )}
-                    onClick={onSelectAttribute}
-                    onSave={onSaveAttribute}
-                  />
-                );
-              })}
-            </div>
+          <div className="w-full flex flex-col justify-start md:justify-center items-center">
+            <h1 className="w-full md:w-[768px] text-gray-500 text-xl md:text-2xl text-center">
+              Select some Attributes Important to
+            </h1>
+            <h1 className="w-full md:w-[768px] text-black text-xl md:text-2xl font-bold text-center overflow-hidden text-ellipsis">
+              {problem}
+            </h1>
+          </div>
+          <div className="w-full md:w-[768px] pr-1">
+            <AddSlot onClick={onAddAttribute} />
+          </div>
+          <div className="w-full md:w-[768px] pr-1 flex-grow overflow-y-auto space-y-1 custom-scrollbar">
+            {attributes?.map((attr, index) => {
+              return (
+                <AttributeSlot
+                  key={index}
+                  index={index}
+                  attribute={attr}
+                  selectedIds={selectedAttributes.map(
+                    (attribute) => attribute.id
+                  )}
+                  onClick={onSelectAttribute}
+                  onSave={onSaveAttribute}
+                />
+              );
+            })}
           </div>
           <div className="w-full md:w-[768px] flex flex-row justify-between items-center space-x-2">
             <button
