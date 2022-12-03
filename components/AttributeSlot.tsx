@@ -103,10 +103,8 @@ const AttributeSlot = ({
             src={image}
           />
         ) : (
-          <div
-            className={`absolute left-0 top-0 w-full h-full flex justify-start items-start z-0`}
-          >
-            <div className="animate-spin rounded-full w-4 h-4 m-2 border-t-2 border-gray-500"></div>
+          <div className={`absolute right-2 bottom-2 z-0`}>
+            <div className="animate-spin rounded-full w-4 h-4 border-t-2 border-[#5AC0E5]"></div>
           </div>
         )}
         {!isEditing && !isMobile && isMouseOver && (

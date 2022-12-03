@@ -136,7 +136,7 @@ export default function Problem() {
       </Head>
 
       <main className="relative left-0 top-0 w-screen h-screen flex flex-col justify-start items-center md:items-start p-5 md:p-10">
-        <div className="w-full h-5/6 flex flex-col justify-start md:justify-center items-center space-y-3 overflow-hidden z-10">
+        <div className="w-full h-full flex flex-col justify-start md:justify-center items-center space-y-3 overflow-hidden z-10">
           <div className="w-full flex flex-col justify-start md:justify-center items-center">
             <h1 className="w-full md:w-[768px] text-gray-500 text-xl md:text-2xl text-center">
               Select some Attributes Important to
