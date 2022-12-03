@@ -73,10 +73,10 @@ export default function AttributePage() {
     if (index == -1) {
       newSelectedOptions.push(options[id]);
     } else {
-      newSelectedOptions = newSelectedOptions.splice(index, 1);
+      newSelectedOptions.splice(index, 1);
     }
-    setSelectedOptions(newSelectedOptions);
 
+    setSelectedOptions(newSelectedOptions);
     setOption(options[id]);
   };
 

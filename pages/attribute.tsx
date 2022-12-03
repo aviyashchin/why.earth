@@ -61,7 +61,7 @@ export default function Problem() {
     if (index == -1) {
       newSelectedAttributes.push(attributes[id]);
     } else {
-      newSelectedAttributes = newSelectedAttributes.splice(index, 1);
+      newSelectedAttributes.splice(index, 1);
     }
 
     setSelectedAttributes(newSelectedAttributes);
