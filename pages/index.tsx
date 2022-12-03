@@ -78,7 +78,7 @@ export default function Home() {
               onChange={(e) => onChangeEmail(e)}
             />
             <button
-              className="w-full md:w-fit h-16 bg-green-600 hover:bg-green-800 rounded-lg px-8 transition-all duration-300 cursor-pointer"
+              className="w-full md:w-fit h-16 bg-[#5AC0E5] hover:bg-[#47a5c7] rounded-lg px-8 outline-none focus:outline-none transition-all duration-300 cursor-pointer"
               onClick={onSignup}
             >
               <span className="w-full text-white text-base md:text-lg font-bold whitespace-nowrap">

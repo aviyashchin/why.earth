@@ -83,7 +83,7 @@ const OptionSlot = ({ index, option, selectedIds, onClick, onSave }: Props) => {
       <div
         className={`w-40 h-40 md:w-60 md:h-60 border-2 flex flex-row justify-center items-center overflow-hidden rounded-md select-none relative transition-all duration-300 ${
           selectedIds.includes(option.id)
-            ? "border-green-600"
+            ? "border-[#5AC0E5]"
             : "border-gray-300"
         } cursor-pointer`}
         onMouseEnter={() => setIsMouseOver(true)}
@@ -105,7 +105,7 @@ const OptionSlot = ({ index, option, selectedIds, onClick, onSave }: Props) => {
         )}
         {!isEditing && !isMobile && isMouseOver && (
           <div
-            className="absolute -right-10 -top-10 w-20 h-20 bg-[#00000088] backdrop-blur-sm rounded-full overflow-hidden text-white cursor-pointer hover:bg-green-600 transition-all duration-300 z-20"
+            className="absolute -right-10 -top-10 w-20 h-20 bg-[#00000088] backdrop-blur-sm rounded-full overflow-hidden text-white cursor-pointer hover:bg-[#5AC0E5cc] transition-all duration-300 z-20"
             onClick={() => setIsEditing(true)}
           >
             <svg
@@ -122,7 +122,7 @@ const OptionSlot = ({ index, option, selectedIds, onClick, onSave }: Props) => {
         )}
 
         {selectedIds.includes(option.id) && (
-          <div className="absolute left-2 top-2 text-green-600">
+          <div className="absolute left-2 top-2 text-[#5AC0E5]">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -155,7 +155,7 @@ const OptionSlot = ({ index, option, selectedIds, onClick, onSave }: Props) => {
           <div
             className={`p-3 max-w-[130px] max-h-[130px] md:max-w-[200px] md:max-h-[200px] backdrop-blur-sm overflow-y-auto select-none rounded-md custom-scrollbar z-10 transition-all duration-300 ${
               selectedIds.includes(option.id)
-                ? "bg-green-600"
+                ? "bg-[#5AC0E5cc]"
                 : "bg-[#00000088]"
             }`}
           >

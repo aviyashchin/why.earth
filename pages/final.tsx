@@ -40,7 +40,7 @@ export default function Final() {
             {JSON.stringify(attributes)}
           </p>
           <button
-            className="w-80 h-16 bg-green-600 hover:bg-green-800 rounded-lg transition-all duration-300 cursor-pointer"
+            className="w-80 h-16 bg-[#5AC0E5] hover:bg-[#47a5c7] rounded-lg outline-none focus:outline-none transition-all duration-300 cursor-pointer"
             onClick={onSignOut}
           >
             <span className="w-full text-white text-base md:text-lg font-bold whitespace-nowrap">

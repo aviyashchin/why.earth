@@ -189,7 +189,7 @@ export default function AttributePage() {
           </div>
           <div className="w-full md:w-[768px] flex flex-row justify-between items-center space-x-2">
             <button
-              className="flex-grow h-12 bg-green-600 hover:bg-green-800 rounded-lg transition-all duration-300 cursor-pointer"
+              className="flex-grow h-12 bg-[#5AC0E5] hover:bg-[#47a5c7] rounded-lg outline-none focus:outline-none transition-all duration-300 cursor-pointer"
               onClick={goBack}
             >
               <span className="w-full text-white text-base md:text-lg font-bold whitespace-nowrap">
@@ -197,7 +197,7 @@ export default function AttributePage() {
               </span>
             </button>
             <button
-              className="flex-grow h-12 bg-green-600 hover:bg-green-800 rounded-lg transition-all duration-300 cursor-pointer"
+              className="flex-grow h-12 bg-[#5AC0E5] hover:bg-[#47a5c7] rounded-lg outline-none focus:outline-none transition-all duration-300 cursor-pointer"
               onClick={goNext}
             >
               <span className="w-full text-white text-base md:text-lg font-bold whitespace-nowrap">

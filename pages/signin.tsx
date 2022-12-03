@@ -138,7 +138,7 @@ export default function Signin() {
             />
             <div className="w-full md:w-80 flex flex-row justify-between items-center">
               <button
-                className="flex-grow h-16 bg-green-600 hover:bg-green-800 rounded-lg transition-all duration-300 cursor-pointer"
+                className="flex-grow h-16 bg-[#5AC0E5] hover:bg-[#47a5c7] rounded-lg outline-none focus:outline-none transition-all duration-300 cursor-pointer"
                 onClick={onSignin}
               >
                 <span className="w-full text-white text-base md:text-lg font-bold whitespace-nowrap">
@@ -146,7 +146,7 @@ export default function Signin() {
                 </span>
               </button>
               <button
-                className="ml-2 w-1/5 h-16 text-white bg-green-600  hover:bg-green-800 rounded-lg flex flex-row justify-center items-center transition-all duration-300 cursor-pointer"
+                className="ml-2 w-1/5 h-16 text-white bg-[#5AC0E5] hover:bg-[#47a5c7] rounded-lg outline-none focus:outline-none flex flex-row justify-center items-center transition-all duration-300 cursor-pointer"
                 onClick={onGoogleSignin}
               >
                 <svg
@@ -164,7 +164,7 @@ export default function Signin() {
             <p className="text-black text-base flex flex-row">
               Forgot password?&nbsp;&nbsp;
               <span
-                className="text-green-600 hover:text-green-800 cursor-pointer"
+                className="text-[#5AC0E5] hover:text-[#47a5c7] cursor-pointer"
                 onClick={onResetPassword}
               >
                 Reset password
@@ -173,7 +173,7 @@ export default function Signin() {
             <p className="text-black text-base flex flex-row">
               Don&apos;t have account?&nbsp;&nbsp;
               <Link href="/signup">
-                <span className="text-green-600 hover:text-green-800 cursor-pointer">
+                <span className="text-[#5AC0E5] hover:text-[#47a5c7] cursor-pointer">
                   Sign Up
                 </span>
               </Link>

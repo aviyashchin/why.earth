@@ -6,7 +6,7 @@ const AddSlot = ({ onClick }: Props) => {
   return (
     <div className="w-full flex justify-center items-center">
       <div
-        className={`w-40 h-40 md:w-60 md:h-60 flex flex-col justify-center items-center overflow-hidden rounded-md text-gray-500 cursor-pointer border border-gray-500 hover:border-green-600 hover:text-green-600 transition-all duration-300`}
+        className={`w-40 h-40 md:w-60 md:h-60 flex flex-col justify-center items-center overflow-hidden rounded-md text-gray-500 cursor-pointer border border-gray-500 hover:border-[#5AC0E5] hover:text-[#5AC0E5] transition-all duration-300`}
         onClick={() => onClick()}
       >
         <svg

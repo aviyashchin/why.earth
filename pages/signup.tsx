@@ -85,7 +85,7 @@ export default function Signup() {
               placeholder="Enter your password"
             />
             <button
-              className="w-full md:w-80 h-16 bg-green-600 hover:bg-green-800 rounded-lg transition-all duration-300 cursor-pointer"
+              className="w-full md:w-80 h-16 bg-[#5AC0E5] hover:bg-[#47a5c7] rounded-lg outline-none focus:outline-none transition-all duration-300 cursor-pointer"
               onClick={onSignup}
             >
               <span className="w-full text-white text-base md:text-lg font-bold whitespace-nowrap">
@@ -95,7 +95,7 @@ export default function Signup() {
             <p className="text-black text-base flex flex-row">
               Already have account?&nbsp;&nbsp;
               <Link href="/signin">
-                <span className="text-green-600 hover:text-green-800 cursor-pointer">
+                <span className="text-[#5AC0E5] hover:text-[#47a5c7] cursor-pointer">
                   Sign In
                 </span>
               </Link>
