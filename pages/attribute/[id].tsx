@@ -172,6 +172,7 @@ export default function AttributePage() {
           </h1>
           <div className="w-full md:w-[768px] pr-1 flex-grow overflow-y-auto space-y-1 custom-scrollbar">
             <div className="w-full grid grid-cols-2 md:grid-cols-3 gap-2">
+              <AddSlot onClick={onAddOption} />
               {options.map((opt, index) => {
                 return (
                   <OptionSlot
@@ -185,9 +186,6 @@ export default function AttributePage() {
                 );
               })}
             </div>
-          </div>
-          <div className="w-full md:w-[768px] pr-1">
-            <AddSlot onClick={onAddOption} />
           </div>
           <div className="w-full md:w-[768px] flex flex-row justify-between items-center space-x-2">
             <button

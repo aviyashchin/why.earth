@@ -145,8 +145,9 @@ export default function Problem() {
               {problem}
             </h1>
           </div>
-          <div className="w-full md:w-[768px] pr-1 flex-grow overflow-y-auto space-y-1 custom-scrollbar">
+          <div className="w-full md:w-[768px] min-h-[300px] pr-1 flex-grow overflow-y-auto space-y-1 custom-scrollbar">
             <div className="w-full grid grid-cols-2 md:grid-cols-3 gap-2">
+              <AddSlot onClick={onAddAttribute} />
               {attributes?.map((attr, index) => {
                 return (
                   <AttributeSlot
@@ -162,9 +163,6 @@ export default function Problem() {
                 );
               })}
             </div>
-          </div>
-          <div className="w-full md:w-[768px] pr-1">
-            <AddSlot onClick={onAddAttribute} />
           </div>
           <div className="w-full md:w-[768px] flex flex-row justify-between items-center space-x-2">
             <button

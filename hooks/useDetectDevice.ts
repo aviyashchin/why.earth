@@ -11,6 +11,8 @@ const useDetectDevice = () => {
     setIsMobile(window.innerWidth <= 768);
   }
   useEffect(() => {
+    setIsMobile(window.innerWidth <= 768);
+
     window.addEventListener("resize", handleWindowSizeChange);
     return () => {
       window.removeEventListener("resize", handleWindowSizeChange);

@@ -77,16 +77,19 @@ a {
   backdrop-filter: blur(30px);
 }
 
-.custom-scrollbar::-webkit-scrollbar {
-  width: 4px;
-  border-radius: 8px;
+*::-webkit-scrollbar {
+  /* width: 4px;
+  border-radius: 8px; */
+  display: none;
 }
 
-.custom-scrollbar::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.1);
+*::-webkit-scrollbar-track {
+  /* box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.1); */
+  display: none;
 }
 
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
+*::-webkit-scrollbar-thumb {
+  /* background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 8px; */
+  display: none;
 }
