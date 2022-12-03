@@ -103,7 +103,9 @@ const AttributeSlot = ({
             src={image}
           />
         ) : (
-          <div className={`absolute right-2 bottom-2 z-0`}>
+          <div
+            className={`absolute right-1 md:right-2 bottom-1 md:bottom-2 z-0`}
+          >
             <div className="animate-spin rounded-full w-4 h-4 border-t-2 border-[#5AC0E5]"></div>
           </div>
         )}
@@ -126,7 +128,7 @@ const AttributeSlot = ({
         )}
 
         {selectedIds.includes(attribute.id) && (
-          <div className="absolute left-2 top-2 text-[#5AC0E5]">
+          <div className="absolute left-1 md:left-2 top-1 md:top-2 text-[#5AC0E5]">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -157,7 +159,7 @@ const AttributeSlot = ({
           />
         ) : (
           <div
-            className={`p-3 max-w-[130px] max-h-[130px] md:max-w-[200px] md:max-h-[200px] backdrop-blur-sm overflow-y-auto select-none rounded-md custom-scrollbar z-10 transition-all duration-300 ${
+            className={`p-3 max-w-[120px] max-h-[120px] md:max-w-[200px] md:max-h-[200px] backdrop-blur-sm overflow-y-auto select-none rounded-md custom-scrollbar z-10 transition-all duration-300 ${
               selectedIds.includes(attribute.id)
                 ? "bg-[#5AC0E5cc]"
                 : "bg-[#00000088]"
